@@ -58,6 +58,10 @@ module.exports = function (env, webpackConfig) {
                             }
                         }
                     ]
+                },
+                {
+                    test: /\.(frag|vert)$/,
+                    use: 'raw-loader'
                 }
             ]
         },
