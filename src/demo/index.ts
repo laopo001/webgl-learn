@@ -1,5 +1,6 @@
-import farg from '../shader/fragment.frag';
-
+import vert from '../shader/vertex.vert';
+import frag from '../shader/fragment.frag';
+import { initShaders } from '../utils'
 let canvas = document.getElementById('root') as HTMLCanvasElement;
 
 let vertices = new Float32Array([-0.5, -0.5, 0.0, 0.5, -0.5, 0.0, 0.0, 0.5, 0.0])
@@ -11,7 +12,10 @@ export class Application {
         this.gl = gl;
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.clear(this.gl.COLOR_BUFFER_BIT);
-        let buffer = this.createVbo(vertices);
+        if (!initShaders(gl, vert, frag)) {
+            return;
+        }
+        gl.drawArrays(gl.POINTS, 0, 1);
 
     }
     createVbo(data: Float32Array): WebGLBuffer {
