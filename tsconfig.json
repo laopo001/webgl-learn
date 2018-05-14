@@ -8,14 +8,12 @@
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "skipLibCheck": true,
     "jsx": "react",
     "jsxFactory": "hpc.h",
     "lib": [
       "webworker",
       "es2015",
-      "dom",
-      "es7"
+      "dom"
     ],
     "noImplicitAny": false,
     "typeRoots": [
@@ -28,10 +26,10 @@
     "allowSyntheticDefaultImports": true
   },
   "files": [
-    "src/**"
+    "src/**/*"
   ],
   "include": [
-    "src"
+    "src","typings"
   ],
   "exclude": [
     "node_modules"
