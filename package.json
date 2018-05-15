@@ -39,7 +39,7 @@
   },
   "scripts": {
     "demo": "webpack --env.demo=demo --colors --watch",
-    "demo-webworker": "webpack --env.demo=demo-webworker --colors --watch",
+    "demo1": "webpack --env.demo=demo1 --colors --watch",
     "build": "webpack"
   },
   "engines": {
