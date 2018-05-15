@@ -10,11 +10,11 @@ export class Application {
     constructor(canvas: HTMLCanvasElement) {
         let gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
         this.gl = gl;
-        gl.clearColor(0.0, 0.0, 0.0, 1.0);
-        gl.clear(this.gl.COLOR_BUFFER_BIT);
         if (!initShaders(gl, vert, frag)) {
             return;
         }
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        gl.clear(this.gl.COLOR_BUFFER_BIT);
         gl.drawArrays(gl.POINTS, 0, 1);
 
     }

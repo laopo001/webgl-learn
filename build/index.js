@@ -81,15 +81,26 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Application", function() { return Application; });
+/* harmony import */ var _shader_vertex_vert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../shader/vertex.vert */ "./src/shader/vertex.vert");
+/* harmony import */ var _shader_vertex_vert__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_shader_vertex_vert__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _shader_fragment_frag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../shader/fragment.frag */ "./src/shader/fragment.frag");
+/* harmony import */ var _shader_fragment_frag__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_shader_fragment_frag__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
+
+
+
 var canvas = document.getElementById('root');
 var vertices = new Float32Array([-0.5, -0.5, 0.0, 0.5, -0.5, 0.0, 0.0, 0.5, 0.0]);
 var Application = /** @class */ (function () {
     function Application(canvas) {
         var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
         this.gl = gl;
+        if (!Object(_utils__WEBPACK_IMPORTED_MODULE_2__["initShaders"])(gl, _shader_vertex_vert__WEBPACK_IMPORTED_MODULE_0___default.a, _shader_fragment_frag__WEBPACK_IMPORTED_MODULE_1___default.a)) {
+            return;
+        }
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.clear(this.gl.COLOR_BUFFER_BIT);
-        var buffer = this.createVbo(vertices);
+        gl.drawArrays(gl.POINTS, 0, 1);
     }
     Application.prototype.createVbo = function (data) {
         var gl = this.gl;
@@ -103,6 +114,95 @@ var Application = /** @class */ (function () {
 }());
 
 new Application(canvas);
+
+
+/***/ }),
+
+/***/ "./src/shader/fragment.frag":
+/*!**********************************!*\
+  !*** ./src/shader/fragment.frag ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "void main(void){  \n    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);  \n}  "
+
+/***/ }),
+
+/***/ "./src/shader/vertex.vert":
+/*!********************************!*\
+  !*** ./src/shader/vertex.vert ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "attribute vec4 position;  \n  \nvoid main(void){  \n    gl_Position = vec4(0.0,0.0,0.0,1.0);\n    gl_PointSize = 10.0;\n}  "
+
+/***/ }),
+
+/***/ "./src/utils/index.ts":
+/*!****************************!*\
+  !*** ./src/utils/index.ts ***!
+  \****************************/
+/*! exports provided: initShaders, createProgram, loadShader */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./util */ "./src/utils/util.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "initShaders", function() { return _util__WEBPACK_IMPORTED_MODULE_0__["initShaders"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createProgram", function() { return _util__WEBPACK_IMPORTED_MODULE_0__["createProgram"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "loadShader", function() { return _util__WEBPACK_IMPORTED_MODULE_0__["loadShader"]; });
+
+
+
+
+/***/ }),
+
+/***/ "./src/utils/util.ts":
+/*!***************************!*\
+  !*** ./src/utils/util.ts ***!
+  \***************************/
+/*! exports provided: initShaders, createProgram, loadShader */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initShaders", function() { return initShaders; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createProgram", function() { return createProgram; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadShader", function() { return loadShader; });
+function initShaders(gl, vshader, fshader) {
+    var program = createProgram(gl, vshader, fshader);
+    return program;
+}
+function createProgram(gl, vshader, fshader) {
+    var vertexShader = loadShader(gl, gl.VERTEX_SHADER, vshader);
+    var fragmentShader = loadShader(gl, gl.FRAGMENT_SHADER, fshader);
+    var program = gl.createProgram();
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
+    gl.linkProgram(program);
+    var linked = gl.getProgramParameter(program, gl.LINK_STATUS);
+    if (!linked) {
+        console.log(gl.getProgramInfoLog(program));
+        return false;
+    }
+    gl.useProgram(program);
+    return program;
+}
+function loadShader(gl, type, source) {
+    var shader = gl.createShader(type);
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+    var compiled = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
+    if (!compiled) {
+        console.log(gl.getShaderInfoLog(shader));
+        return false;
+    }
+    return shader;
+}
 
 
 /***/ })
