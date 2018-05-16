@@ -101,16 +101,31 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var canvas = document.getElementById('root');
-var vertices = new Float32Array([-0.5, -0.5, 0.0, 0.5, -0.5, 0.0, 0.0, 0.5, 0.0]);
+// let vertices = new Float32Array([-0.5, -0.5, 0.0, 0.5, -0.5, 0.0, 0.0, 0.5, 0.0])
+var vertices = [0.0, 0.0];
 var Application = /** @class */ (function () {
     function Application(canvas) {
         var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
         this.gl = gl;
         var program = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["initShaders"])(gl, _vertex_vert__WEBPACK_IMPORTED_MODULE_0___default.a, _fragment_frag__WEBPACK_IMPORTED_MODULE_1___default.a);
         var a_Position = gl.getAttribLocation(program, 'position');
-        gl.vertexAttrib3f(a_Position, 0.0, -0.5, 0.0);
+        canvas.addEventListener('click', function (e) {
+            var rect = canvas.getBoundingClientRect();
+            var x = e.clientX / rect.width * 2 - 1;
+            var y = 1 - e.clientY / rect.height * 2;
+            vertices.push(x, y);
+            console.log(x, y);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            for (var i = 0; i < vertices.length; i = i + 2) {
+                var x_1 = vertices[i];
+                var y_1 = vertices[i + 1];
+                gl.vertexAttrib3f(a_Position, x_1, y_1, 0);
+                gl.drawArrays(gl.POINTS, 0, 1);
+            }
+        });
+        gl.vertexAttrib3f(a_Position, vertices[0], vertices[1], 0.0);
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
-        gl.clear(this.gl.COLOR_BUFFER_BIT);
+        gl.clear(gl.COLOR_BUFFER_BIT);
         gl.drawArrays(gl.POINTS, 0, 1);
     }
     Application.prototype.createVbo = function (data) {
