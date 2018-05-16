@@ -40,6 +40,8 @@
   "scripts": {
     "demo": "webpack --env.demo=demo --colors --watch",
     "demo1": "webpack --env.demo=demo1 --colors --watch",
+    "demo2": "webpack --env.demo=demo2 --colors --watch",
+    "demo3": "webpack --env.demo=demo3 --colors --watch",
     "build": "webpack"
   },
   "engines": {
