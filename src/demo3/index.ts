@@ -1,5 +1,6 @@
 import vert from './vertex.vert';
 import frag from './fragment.frag';
+import { Mat4 } from '../math/mat4';
 import { initShaders } from '../utils'
 let canvas = document.getElementById('root') as HTMLCanvasElement;
 
@@ -14,9 +15,15 @@ export class Application {
         this.gl = gl;
         this.createVbo(vertices);
         let program = initShaders(gl, vert, frag);
+        let mat4 = new Mat4();
+        mat4.setScale(2, 2, 2);
+        console.log(mat4);
         const a_Position = gl.getAttribLocation(program, 'position');
         gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 0, 0);
         gl.enableVertexAttribArray(a_Position);
+        const matrix = gl.getUniformLocation(program, 'matrix');
+        gl.uniformMatrix4fv(matrix, false, mat4.data)
+        // gl.enableVertexAttribArray(matrix)
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
