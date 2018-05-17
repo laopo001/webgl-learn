@@ -1,6 +1,6 @@
 export function initShaders(gl: WebGLRenderingContext, vshader: string, fshader: string) {
     let program = createProgram(gl, vshader, fshader);
-    
+
     return program;
 }
 
@@ -20,7 +20,7 @@ export function createProgram(gl: WebGLRenderingContext, vshader: string, fshade
     return program;
 }
 
-export function loadShader(gl: WebGLRenderingContext, type, source) {
+export function loadShader(gl: WebGLRenderingContext, type: number, source: string) {
     const shader = gl.createShader(type);
     gl.shaderSource(shader, source);
     gl.compileShader(shader);

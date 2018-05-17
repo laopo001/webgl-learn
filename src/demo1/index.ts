@@ -24,9 +24,7 @@ export class Application {
             for (let i = 0; i < vertices.length; i = i + 2) {
                 let x = vertices[i];
                 let y = vertices[i + 1];
-
-                gl.vertexAttrib3f(a_Position, x, y, 0)
-
+                gl.vertexAttrib3f(a_Position, x, y, 0);
                 gl.drawArrays(gl.POINTS, 0, 1);
             }
         })
