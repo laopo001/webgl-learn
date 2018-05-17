@@ -111,8 +111,11 @@ var Application = /** @class */ (function () {
         this.gl = gl;
         this.createVbo(vertices);
         var program = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["initShaders"])(gl, _vertex_vert__WEBPACK_IMPORTED_MODULE_0___default.a, _fragment_frag__WEBPACK_IMPORTED_MODULE_1___default.a);
-        var mat4 = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]();
-        mat4.setScale(2, 2, 2);
+        var mat4Angles = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setFromEulerAngles(0, 0, 90);
+        var mat4Scale = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setScale(1.5, 1, 1.5);
+        var mat4Translate = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setTranslate(0.2, 0.2, 0.2);
+        var mat4 = mat4Angles.mul(mat4Scale).mul(mat4Translate);
+        // mat4.setTranslate(0.2, 0.2, 0.2);
         console.log(mat4);
         var a_Position = gl.getAttribLocation(program, 'position');
         gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 0, 0);
@@ -123,6 +126,7 @@ var Application = /** @class */ (function () {
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
+        gl.flush();
     }
     Application.prototype.createVbo = function (data) {
         var gl = this.gl;
@@ -147,7 +151,7 @@ new Application(canvas);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "attribute vec4 position;  \nattribute mat4 matrix;\nvoid main(void){  \n    gl_Position = matrix * position;\n    gl_PointSize = 10.0;\n}  "
+module.exports = "attribute vec4 position;  \nuniform mat4 matrix;\nvoid main(void){  \n    gl_Position = matrix * position;\n    gl_PointSize = 10.0;\n}  "
 
 /***/ }),
 

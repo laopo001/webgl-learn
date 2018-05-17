@@ -441,7 +441,7 @@ export class Mat4 {
      *
      * m.transformVec4(v, result);
      */
-    transformVec4(vec: Vec4, res: Vec4): Vec4 {
+    transformVec4(vec: Vec4, res?: Vec4): Vec4 {
         var x, y, z, w,
             m = this.data,
             v = vec.data;
