@@ -29,12 +29,11 @@ export class Application {
         gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 0, 0);
         gl.enableVertexAttribArray(a_Position);
         const matrix = gl.getUniformLocation(program, 'matrix');
-        gl.uniformMatrix4fv(matrix, false, mat4.data)
+        gl.uniformMatrix4fv(matrix, false, mat4.data);
         // gl.enableVertexAttribArray(matrix)
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
-        gl.flush();
     }
     createVbo(data: Float32Array): WebGLBuffer {
         let { gl } = this;

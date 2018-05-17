@@ -66,25 +66,25 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/demo3/index.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/demo4/index.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/demo3/fragment.frag":
+/***/ "./src/demo4/fragment.frag":
 /*!*********************************!*\
-  !*** ./src/demo3/fragment.frag ***!
+  !*** ./src/demo4/fragment.frag ***!
   \*********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "void main(void){  \n    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);  \n}  "
+module.exports = "void main(void){  \r\n    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);  \r\n}  "
 
 /***/ }),
 
-/***/ "./src/demo3/index.ts":
+/***/ "./src/demo4/index.ts":
 /*!****************************!*\
-  !*** ./src/demo3/index.ts ***!
+  !*** ./src/demo4/index.ts ***!
   \****************************/
 /*! exports provided: Application */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -92,9 +92,9 @@ module.exports = "void main(void){  \n    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Application", function() { return Application; });
-/* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vertex.vert */ "./src/demo3/vertex.vert");
+/* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vertex.vert */ "./src/demo4/vertex.vert");
 /* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_vertex_vert__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fragment.frag */ "./src/demo3/fragment.frag");
+/* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fragment.frag */ "./src/demo4/fragment.frag");
 /* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_fragment_frag__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _math_mat4__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../math/mat4 */ "./src/math/mat4.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
@@ -126,7 +126,6 @@ var Application = /** @class */ (function () {
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
-        gl.flush();
     }
     Application.prototype.createVbo = function (data) {
         var gl = this.gl;
@@ -144,14 +143,14 @@ new Application(canvas);
 
 /***/ }),
 
-/***/ "./src/demo3/vertex.vert":
+/***/ "./src/demo4/vertex.vert":
 /*!*******************************!*\
-  !*** ./src/demo3/vertex.vert ***!
+  !*** ./src/demo4/vertex.vert ***!
   \*******************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "attribute vec4 position;  \nuniform mat4 matrix;\nvoid main(void){  \n    gl_Position = matrix * position;\n    gl_PointSize = 10.0;\n}  "
+module.exports = "attribute vec4 position;  \r\nuniform mat4 matrix;\r\nvoid main(void){  \r\n    gl_Position = matrix * position;\r\n    gl_PointSize = 10.0;\r\n}  "
 
 /***/ }),
 
