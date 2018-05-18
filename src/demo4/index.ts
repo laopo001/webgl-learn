@@ -5,7 +5,11 @@ import { initShaders } from '../utils'
 import { Vec4 } from '../math';
 let canvas = document.getElementById('root') as HTMLCanvasElement;
 
-let vertices = new Float32Array([-0.5, -0.5, 0.0, 0.5, -0.5, 0.0, 0.0, 0.5, 0.0])
+let vertices = new Float32Array([
+    -0.5, -0.5, 0.0, 1, 0, 0,
+    0.5, -0.5, 0.0, 0, 1, 0,
+    0.0, 0.5, 0.0, 0, 0, 1
+])
 
 // let vertices = [0.0, 0.0];
 
@@ -16,18 +20,21 @@ export class Application {
         this.gl = gl;
         this.createVbo(vertices);
         let program = initShaders(gl, vert, frag);
-
+        let FSIZE = Float32Array.BYTES_PER_ELEMENT;
         let mat4Angles = new Mat4().setFromEulerAngles(0, 0, 90);
         let mat4Scale = new Mat4().setScale(1.5, 1, 1.5);
         let mat4Translate = new Mat4().setTranslate(0.2, 0.2, 0.2);
 
         let mat4 = mat4Angles.mul(mat4Scale).mul(mat4Translate);
         // mat4.setTranslate(0.2, 0.2, 0.2);
+        mat4.setIdentity();
         console.log(mat4);
         const a_Position = gl.getAttribLocation(program, 'position');
-
-        gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 0, 0);
+        gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 6 * FSIZE, 0);
         gl.enableVertexAttribArray(a_Position);
+        const a_Color = gl.getAttribLocation(program, 'a_Color');
+        gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, 6 * FSIZE, 3 * FSIZE)
+        gl.enableVertexAttribArray(a_Color);
         const matrix = gl.getUniformLocation(program, 'matrix');
         gl.uniformMatrix4fv(matrix, false, mat4.data);
         // gl.enableVertexAttribArray(matrix)
