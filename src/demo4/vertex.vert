@@ -1,6 +1,8 @@
 attribute vec4 position;  
 uniform mat4 matrix;
-void main(void){  
+attribute vec4 a_Color;
+varying vec4 v_Color;
+void main(){  
     gl_Position = matrix * position;
-    gl_PointSize = 10.0;
-}  
+    v_Color = a_Color;
+}

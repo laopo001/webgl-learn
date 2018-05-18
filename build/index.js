@@ -78,7 +78,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "void main(void){  \r\n    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);  \r\n}  "
+module.exports = "precision lowp float;\r\nvarying vec4 v_Color;                \r\nvoid main(void) {                          \r\n    gl_FragColor = v_Color;                \r\n}"
 
 /***/ }),
 
@@ -103,7 +103,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var canvas = document.getElementById('root');
-var vertices = new Float32Array([-0.5, -0.5, 0.0, 0.5, -0.5, 0.0, 0.0, 0.5, 0.0]);
+var vertices = new Float32Array([
+    -0.5, -0.5, 0.0, 1, 0, 0,
+    0.5, -0.5, 0.0, 0, 1, 0,
+    0.0, 0.5, 0.0, 0, 0, 1
+]);
 // let vertices = [0.0, 0.0];
 var Application = /** @class */ (function () {
     function Application(canvas) {
@@ -111,15 +115,20 @@ var Application = /** @class */ (function () {
         this.gl = gl;
         this.createVbo(vertices);
         var program = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["initShaders"])(gl, _vertex_vert__WEBPACK_IMPORTED_MODULE_0___default.a, _fragment_frag__WEBPACK_IMPORTED_MODULE_1___default.a);
+        var FSIZE = Float32Array.BYTES_PER_ELEMENT;
         var mat4Angles = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setFromEulerAngles(0, 0, 90);
         var mat4Scale = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setScale(1.5, 1, 1.5);
         var mat4Translate = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setTranslate(0.2, 0.2, 0.2);
         var mat4 = mat4Angles.mul(mat4Scale).mul(mat4Translate);
         // mat4.setTranslate(0.2, 0.2, 0.2);
+        mat4.setIdentity();
         console.log(mat4);
         var a_Position = gl.getAttribLocation(program, 'position');
-        gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 0, 0);
+        gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 6 * FSIZE, 0);
         gl.enableVertexAttribArray(a_Position);
+        var a_Color = gl.getAttribLocation(program, 'a_Color');
+        gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, 6 * FSIZE, 3 * FSIZE);
+        gl.enableVertexAttribArray(a_Color);
         var matrix = gl.getUniformLocation(program, 'matrix');
         gl.uniformMatrix4fv(matrix, false, mat4.data);
         // gl.enableVertexAttribArray(matrix)
@@ -150,7 +159,7 @@ new Application(canvas);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "attribute vec4 position;  \r\nuniform mat4 matrix;\r\nvoid main(void){  \r\n    gl_Position = matrix * position;\r\n    gl_PointSize = 10.0;\r\n}  "
+module.exports = "attribute vec4 position;  \r\nuniform mat4 matrix;\r\nattribute vec4 a_Color;\r\nvarying vec4 v_Color;\r\nvoid main(){  \r\n    gl_Position = matrix * position;\r\n    v_Color = a_Color;\r\n}"
 
 /***/ }),
 
