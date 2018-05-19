@@ -27,6 +27,7 @@
     "browser-sync-webpack-plugin": "^2.2.2",
     "cache-loader": "^1.2.2",
     "co": "^4.6.0",
+    "copy-webpack-plugin": "^4.5.1",
     "gulp": "^3.9.1",
     "gulp-replace": "^0.6.1",
     "jest": "^22.4.3",
@@ -43,6 +44,7 @@
     "demo2": "webpack --env.demo=demo2 --colors --watch",
     "demo3": "webpack --env.demo=demo3 --colors --watch",
     "demo4": "webpack --env.demo=demo4 --colors --watch",
+    "demo5": "webpack --env.demo=demo5 --colors --watch",
     "build": "webpack"
   },
   "engines": {

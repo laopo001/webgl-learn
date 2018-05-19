@@ -1,10 +1,10 @@
 var webpack = require('webpack');
 var path = require('path')
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
-
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = function (env, webpackConfig) {
     if (env) {
-       
+
     } else {
         env = { demo: 'demo' }
     }
@@ -27,7 +27,10 @@ module.exports = function (env, webpackConfig) {
                 port: 5000,
                 server: { baseDir: ['build'] }
             }),
-
+            new CopyWebpackPlugin([{
+                from: __dirname + '/src/assets',
+                to: __dirname + '/build/assets'
+            }])
         ],
         module: {
             //加载器配置

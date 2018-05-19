@@ -66,25 +66,25 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/demo4/index.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/demo5/index.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/demo4/fragment.frag":
+/***/ "./src/demo5/fragment.frag":
 /*!*********************************!*\
-  !*** ./src/demo4/fragment.frag ***!
+  !*** ./src/demo5/fragment.frag ***!
   \*********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "precision lowp float;\r\nvarying vec4 v_Color;                \r\nvoid main(void) {                          \r\n    gl_FragColor = v_Color;                \r\n}"
+module.exports = "precision mediump float;\r\nuniform sampler2D u_Sampler;\r\nvarying vec2 v_TexCoord;                \r\nvoid main(void) {                          \r\n    gl_FragColor = texture2D(u_Sampler,v_TexCoord);                \r\n}"
 
 /***/ }),
 
-/***/ "./src/demo4/index.ts":
+/***/ "./src/demo5/index.ts":
 /*!****************************!*\
-  !*** ./src/demo4/index.ts ***!
+  !*** ./src/demo5/index.ts ***!
   \****************************/
 /*! exports provided: Application */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -92,57 +92,103 @@ module.exports = "precision lowp float;\r\nvarying vec4 v_Color;                
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Application", function() { return Application; });
-/* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vertex.vert */ "./src/demo4/vertex.vert");
+/* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vertex.vert */ "./src/demo5/vertex.vert");
 /* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_vertex_vert__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fragment.frag */ "./src/demo4/fragment.frag");
+/* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fragment.frag */ "./src/demo5/fragment.frag");
 /* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_fragment_frag__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _math_mat4__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../math/mat4 */ "./src/math/mat4.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 
 
 
 
 var canvas = document.getElementById('root');
 var vertices = new Float32Array([
-    -0.5, -0.5, 0.0, 1, 0, 0,
-    0.5, -0.5, 0.0, 0, 1, 0,
-    0.0, 0.5, 0.0, 0, 0, 1
+    -0.5, 0.5, 0, 0, 1,
+    -0.5, -0.5, 0, 0, 0,
+    0.5, 0.5, 0, 1, 1,
+    0.5, -0.5, 0, 1, 0
 ]);
 // let vertices = [0.0, 0.0];
 var Application = /** @class */ (function () {
     function Application(canvas) {
         var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
         this.gl = gl;
-        this.createVbo(vertices);
-        var program = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["initShaders"])(gl, _vertex_vert__WEBPACK_IMPORTED_MODULE_0___default.a, _fragment_frag__WEBPACK_IMPORTED_MODULE_1___default.a);
-        var FSIZE = Float32Array.BYTES_PER_ELEMENT;
-        var mat4Angles = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setFromEulerAngles(0, 0, 90);
-        var mat4Scale = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setScale(1.5, 1, 1.5);
-        var mat4Translate = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setTranslate(0.2, 0.2, 0.2);
-        var mat4 = mat4Angles.mul(mat4Scale).mul(mat4Translate);
-        // mat4.setTranslate(0.2, 0.2, 0.2);
-        mat4.setIdentity();
-        console.log(mat4);
-        var a_Position = gl.getAttribLocation(program, 'position');
-        gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 6 * FSIZE, 0);
-        gl.enableVertexAttribArray(a_Position);
-        var a_Color = gl.getAttribLocation(program, 'a_Color');
-        gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, 6 * FSIZE, 3 * FSIZE);
-        gl.enableVertexAttribArray(a_Color);
-        var matrix = gl.getUniformLocation(program, 'matrix');
-        gl.uniformMatrix4fv(matrix, false, mat4.data);
-        // gl.enableVertexAttribArray(matrix)
-        gl.clearColor(0.0, 0.0, 0.0, 1.0);
-        gl.clear(gl.COLOR_BUFFER_BIT);
-        gl.drawArrays(gl.TRIANGLES, 0, 3);
+        this.main();
     }
-    Application.prototype.createVbo = function (data) {
-        var gl = this.gl;
-        var vbo = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
-        gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
-        // gl.bindBuffer(gl.ARRAY_BUFFER, null)
-        return vbo;
+    Application.prototype.main = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var gl, program, FSIZE, mat4Angles, mat4Scale, mat4Translate, mat4, a_Position, a_TexCoord, matrix, image, u_Sampler;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        gl = this.gl;
+                        Object(_utils__WEBPACK_IMPORTED_MODULE_3__["createVbo"])(gl, vertices);
+                        program = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["initShaders"])(gl, _vertex_vert__WEBPACK_IMPORTED_MODULE_0___default.a, _fragment_frag__WEBPACK_IMPORTED_MODULE_1___default.a);
+                        FSIZE = Float32Array.BYTES_PER_ELEMENT;
+                        mat4Angles = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setFromEulerAngles(0, 0, 90);
+                        mat4Scale = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setScale(1.5, 1, 1.5);
+                        mat4Translate = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setTranslate(0.2, 0.2, 0.2);
+                        mat4 = mat4Angles.mul(mat4Scale).mul(mat4Translate);
+                        // mat4.setTranslate(0.2, 0.2, 0.2);
+                        mat4.setIdentity();
+                        console.log(mat4);
+                        a_Position = gl.getAttribLocation(program, 'position');
+                        gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 5 * FSIZE, 0);
+                        gl.enableVertexAttribArray(a_Position);
+                        a_TexCoord = gl.getAttribLocation(program, 'a_TexCoord');
+                        gl.vertexAttribPointer(a_TexCoord, 2, gl.FLOAT, false, 5 * FSIZE, 3 * FSIZE);
+                        gl.enableVertexAttribArray(a_TexCoord);
+                        matrix = gl.getUniformLocation(program, 'matrix');
+                        gl.uniformMatrix4fv(matrix, false, mat4.data);
+                        return [4 /*yield*/, Object(_utils__WEBPACK_IMPORTED_MODULE_3__["loadImage"])('./assets/images/bg.JPG')];
+                    case 1:
+                        image = _a.sent();
+                        u_Sampler = gl.getUniformLocation(program, 'u_Sampler');
+                        Object(_utils__WEBPACK_IMPORTED_MODULE_3__["loadTexture"])(gl, u_Sampler, image);
+                        // gl.enableVertexAttribArray(matrix)
+                        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+                        gl.clear(gl.COLOR_BUFFER_BIT);
+                        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     return Application;
 }());
@@ -152,14 +198,14 @@ new Application(canvas);
 
 /***/ }),
 
-/***/ "./src/demo4/vertex.vert":
+/***/ "./src/demo5/vertex.vert":
 /*!*******************************!*\
-  !*** ./src/demo4/vertex.vert ***!
+  !*** ./src/demo5/vertex.vert ***!
   \*******************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "attribute vec4 position;  \r\nuniform mat4 matrix;\r\nattribute vec4 a_Color;\r\nvarying vec4 v_Color;\r\nvoid main(){  \r\n    gl_Position = matrix * position;\r\n    v_Color = a_Color;\r\n}"
+module.exports = "attribute vec4 position;\r\nuniform mat4 matrix;\r\nattribute vec2 a_TexCoord;\r\nvarying vec2 v_TexCoord;\r\nvoid main(){  \r\n    gl_Position = matrix * position;\r\n    v_TexCoord = a_TexCoord;\r\n}"
 
 /***/ }),
 
@@ -2693,7 +2739,7 @@ var Vec4 = /** @class */ (function () {
 /*!****************************!*\
   !*** ./src/utils/index.ts ***!
   \****************************/
-/*! exports provided: initShaders, createProgram, loadShader */
+/*! exports provided: initShaders, createProgram, loadShader, createVbo, loadImage */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2705,6 +2751,12 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "loadShader", function() { return _util__WEBPACK_IMPORTED_MODULE_0__["loadShader"]; });
 
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createVbo", function() { return _util__WEBPACK_IMPORTED_MODULE_0__["createVbo"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "loadImage", function() { return _util__WEBPACK_IMPORTED_MODULE_0__["loadImage"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "loadTexture", function() { return _util__WEBPACK_IMPORTED_MODULE_0__["loadTexture"]; });
+
 
 
 
@@ -2714,7 +2766,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!***************************!*\
   !*** ./src/utils/util.ts ***!
   \***************************/
-/*! exports provided: initShaders, createProgram, loadShader */
+/*! exports provided: initShaders, createProgram, loadShader, createVbo, loadImage, loadTexture */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2722,6 +2774,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initShaders", function() { return initShaders; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createProgram", function() { return createProgram; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadShader", function() { return loadShader; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createVbo", function() { return createVbo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadImage", function() { return loadImage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadTexture", function() { return loadTexture; });
 function initShaders(gl, vshader, fshader) {
     var program = createProgram(gl, vshader, fshader);
     return program;
@@ -2751,6 +2806,41 @@ function loadShader(gl, type, source) {
         return false;
     }
     return shader;
+}
+function createVbo(gl, data) {
+    var vbo = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+    gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
+    // gl.bindBuffer(gl.ARRAY_BUFFER, null)
+    return vbo;
+}
+function loadImage(url) {
+    return new Promise(function (resolve, reject) {
+        var image = new Image();
+        image.onload = function () {
+            resolve(image);
+        };
+        image.src = url;
+    });
+}
+function loadTexture(gl, u_Sampler, image) {
+    console.log(image);
+    var texture = gl.createTexture();
+    // 对纹理图像进行Y轴反转
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+    // 开启0号纹理单元
+    gl.activeTexture(gl.TEXTURE0);
+    // 向target绑定纹理对象
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    // 配置纹理参数
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    // 配置纹理图像
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
+    // 将0号纹理传递给着色器
+    gl.uniform1i(u_Sampler, 0);
 }
 
 
