@@ -2739,7 +2739,7 @@ var Vec4 = /** @class */ (function () {
 /*!****************************!*\
   !*** ./src/utils/index.ts ***!
   \****************************/
-/*! exports provided: initShaders, createProgram, loadShader, createVbo, loadImage */
+/*! exports provided: initShaders, createProgram, loadShader, createVbo, loadImage, loadTexture */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2808,10 +2808,12 @@ function loadShader(gl, type, source) {
     return shader;
 }
 function createVbo(gl, data) {
+    // 创建缓存区对象
     var vbo = gl.createBuffer();
+    // 将缓冲区对象绑定到目标
     gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+    // 想向缓冲区对象中写入数据
     gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
-    // gl.bindBuffer(gl.ARRAY_BUFFER, null)
     return vbo;
 }
 function loadImage(url) {
