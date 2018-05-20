@@ -23,8 +23,11 @@ export class Application {
     }
     createVbo(data: Float32Array): WebGLBuffer {
         let { gl } = this;
+        // 创建缓存区对象
         let vbo = gl.createBuffer();
+        // 将缓冲区对象绑定到目标
         gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+        // 想向缓冲区对象中写入数据
         gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
         // gl.bindBuffer(gl.ARRAY_BUFFER, null)
         return vbo;
