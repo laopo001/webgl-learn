@@ -3,11 +3,13 @@ var path = require('path')
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = function (env, webpackConfig) {
-    if (env) {
 
+    if (env) {
+        if (env.demo === 'demo0') { env.demo = 'demo'; }
     } else {
         env = { demo: 'demo' }
     }
+   
     console.log(`./src/${env.demo}/index`)
     return {
         //页面入口文件配置
