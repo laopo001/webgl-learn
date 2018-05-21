@@ -2847,4 +2847,4 @@ function loadTexture(gl, u_Sampler, image) {
 /***/ })
 
 /******/ });
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=http://dadigua.oss-cn-shenzhen.aliyuncs.com/webgl-learn/demo5/deploy/index.js.map
