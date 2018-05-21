@@ -66,25 +66,25 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/demo5/index.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/demo6/index.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/demo5/fragment.frag":
+/***/ "./src/demo6/fragment.frag":
 /*!*********************************!*\
-  !*** ./src/demo5/fragment.frag ***!
+  !*** ./src/demo6/fragment.frag ***!
   \*********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "precision mediump float;\nuniform sampler2D u_Sampler;\nvarying vec2 v_TexCoord;                \nvoid main(void) {                          \n    gl_FragColor = texture2D(u_Sampler,v_TexCoord);                \n}"
+module.exports = "precision mediump float;\r\nuniform sampler2D u_Sampler;\r\nvarying vec2 v_TexCoord;                \r\nvoid main(void) {                          \r\n    gl_FragColor = texture2D(u_Sampler,v_TexCoord);                \r\n}"
 
 /***/ }),
 
-/***/ "./src/demo5/index.ts":
+/***/ "./src/demo6/index.ts":
 /*!****************************!*\
-  !*** ./src/demo5/index.ts ***!
+  !*** ./src/demo6/index.ts ***!
   \****************************/
 /*! exports provided: Application */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -92,9 +92,9 @@ module.exports = "precision mediump float;\nuniform sampler2D u_Sampler;\nvaryin
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Application", function() { return Application; });
-/* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vertex.vert */ "./src/demo5/vertex.vert");
+/* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vertex.vert */ "./src/demo6/vertex.vert");
 /* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_vertex_vert__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fragment.frag */ "./src/demo5/fragment.frag");
+/* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fragment.frag */ "./src/demo6/fragment.frag");
 /* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_fragment_frag__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _math_mat4__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../math/mat4 */ "./src/math/mat4.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
@@ -198,14 +198,14 @@ new Application(canvas);
 
 /***/ }),
 
-/***/ "./src/demo5/vertex.vert":
+/***/ "./src/demo6/vertex.vert":
 /*!*******************************!*\
-  !*** ./src/demo5/vertex.vert ***!
+  !*** ./src/demo6/vertex.vert ***!
   \*******************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "attribute vec4 position;\nuniform mat4 matrix;\nattribute vec2 a_TexCoord;\nvarying vec2 v_TexCoord;\nvoid main(){  \n    gl_Position = matrix * position;\n    v_TexCoord = a_TexCoord;\n}"
+module.exports = "attribute vec4 position;\r\nuniform mat4 matrix;\r\nattribute vec2 a_TexCoord;\r\nvarying vec2 v_TexCoord;\r\nvoid main(){  \r\n    gl_Position = matrix * position;\r\n    v_TexCoord = a_TexCoord;\r\n}"
 
 /***/ }),
 
