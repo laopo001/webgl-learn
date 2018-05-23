@@ -52,13 +52,14 @@ export function loadImage(url: string) {
     })
 }
 
-export function loadTexture(gl: WebGLRenderingContext, u_Sampler, image: ImageBitmap | ImageData | HTMLVideoElement | HTMLImageElement | HTMLCanvasElement) {
+export function loadTexture(gl: WebGLRenderingContext, u_Sampler, image: ImageBitmap | ImageData | HTMLVideoElement | HTMLImageElement | HTMLCanvasElement, t = 0) {
     console.log(image)
     const texture = gl.createTexture();
     // 对纹理图像进行Y轴反转
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
     // 开启0号纹理单元
-    gl.activeTexture(gl.TEXTURE0);
+
+    gl.activeTexture(gl['TEXTURE' + t]);
     // 向target绑定纹理对象
     gl.bindTexture(gl.TEXTURE_2D, texture);
     // 配置纹理参数
@@ -69,6 +70,6 @@ export function loadTexture(gl: WebGLRenderingContext, u_Sampler, image: ImageBi
     // 配置纹理图像
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
     // 将0号纹理传递给着色器
-    gl.uniform1i(u_Sampler, 0);
+    gl.uniform1i(u_Sampler, t);
 
 }

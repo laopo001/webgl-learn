@@ -78,7 +78,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "precision mediump float;\r\nuniform sampler2D u_Sampler;\r\nvarying vec2 v_TexCoord;                \r\nvoid main(void) {                          \r\n    gl_FragColor = texture2D(u_Sampler,v_TexCoord);                \r\n}"
+module.exports = "precision mediump float;\r\nuniform sampler2D u_Sampler;\r\nuniform sampler2D u_Sampler2;\r\nvarying vec2 v_TexCoord;                \r\nvoid main(void) {                          \r\n    gl_FragColor = texture2D(u_Sampler,v_TexCoord) * texture2D(u_Sampler2,v_TexCoord);                \r\n}"
 
 /***/ }),
 
@@ -153,7 +153,7 @@ var Application = /** @class */ (function () {
     }
     Application.prototype.main = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var gl, program, FSIZE, mat4Angles, mat4Scale, mat4Translate, mat4, a_Position, a_TexCoord, matrix, image, u_Sampler;
+            var gl, program, FSIZE, mat4Angles, mat4Scale, mat4Translate, mat4, a_Position, a_TexCoord, matrix, image, u_Sampler, image2, u_Sampler2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -181,7 +181,11 @@ var Application = /** @class */ (function () {
                         image = _a.sent();
                         u_Sampler = gl.getUniformLocation(program, 'u_Sampler');
                         Object(_utils__WEBPACK_IMPORTED_MODULE_3__["loadTexture"])(gl, u_Sampler, image);
-                        // gl.enableVertexAttribArray(matrix)
+                        return [4 /*yield*/, Object(_utils__WEBPACK_IMPORTED_MODULE_3__["loadImage"])('./assets/images/flare.png')];
+                    case 2:
+                        image2 = _a.sent();
+                        u_Sampler2 = gl.getUniformLocation(program, 'u_Sampler2');
+                        Object(_utils__WEBPACK_IMPORTED_MODULE_3__["loadTexture"])(gl, u_Sampler2, image2, 1);
                         gl.clearColor(0.0, 0.0, 0.0, 1.0);
                         gl.clear(gl.COLOR_BUFFER_BIT);
                         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
@@ -2825,13 +2829,14 @@ function loadImage(url) {
         image.src = url;
     });
 }
-function loadTexture(gl, u_Sampler, image) {
+function loadTexture(gl, u_Sampler, image, t) {
+    if (t === void 0) { t = 0; }
     console.log(image);
     var texture = gl.createTexture();
     // 对纹理图像进行Y轴反转
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
     // 开启0号纹理单元
-    gl.activeTexture(gl.TEXTURE0);
+    gl.activeTexture(gl['TEXTURE' + t]);
     // 向target绑定纹理对象
     gl.bindTexture(gl.TEXTURE_2D, texture);
     // 配置纹理参数
@@ -2842,7 +2847,7 @@ function loadTexture(gl, u_Sampler, image) {
     // 配置纹理图像
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
     // 将0号纹理传递给着色器
-    gl.uniform1i(u_Sampler, 0);
+    gl.uniform1i(u_Sampler, t);
 }
 
 
