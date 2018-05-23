@@ -43,8 +43,11 @@ export class Application {
         (gl as WebGLRenderingContext).uniformMatrix4fv(matrix, false, mat4.data);
         const image = await loadImage('./assets/images/bg.JPG');
         const u_Sampler = gl.getUniformLocation(program, 'u_Sampler');
-        loadTexture(gl,u_Sampler,image);
-        // gl.enableVertexAttribArray(matrix)
+        loadTexture(gl, u_Sampler, image);
+        const image2 = await loadImage('./assets/images/flare.png');
+        const u_Sampler2 = gl.getUniformLocation(program, 'u_Sampler2');
+        loadTexture(gl, u_Sampler2, image2, 1);
+
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT);
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
