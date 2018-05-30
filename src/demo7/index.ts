@@ -2,17 +2,24 @@ import vert from './vertex.vert';
 import frag from './fragment.frag';
 import { Mat4 } from '../math/mat4';
 import { initShaders, createVbo, loadImage, loadTexture } from '../utils'
-import { Vec4 } from '../math';
+import { Vec4, Vec3 } from '../math';
 let canvas = document.getElementById('root') as HTMLCanvasElement;
 
 let vertices = new Float32Array([
-    -0.5, 0.5, 0, 0, 1,
-    -0.5, -0.5, 0, 0, 0,
-    0.5, 0.5, 0, 1, 1,
-    0.5, -0.5, 0, 1, 0
-])
+    0, 0.5, -0.4, 0.4, 1, 0.4,
+    -0.5, -0.5, -0.4, 0.4, 1, 0.4,
+    0.5, -0.5, -0.4, 1, 0.4, 0.4,
 
-// let vertices = [0.0, 0.0];
+    0.5, 0.4, -0.2, 1, 0.4, 0.4,
+    -0.5, 0.4, -0.2, 1, 1, 0.4,
+    0, -0.6, -0.2, 1, 1, 0.4,
+
+    0, 0.5, 0, 0.4, 0.4, 1,
+    -0.5, -0.5, 0, 0.4, 0.4, 1,
+    0.5, -0.5, 0, 1, 0.4, 0.4
+])
+let n = vertices.length;
+
 export class Application {
     private gl: WebGLRenderingContext | WebGL2RenderingContext;
     constructor(canvas: HTMLCanvasElement) {
@@ -23,34 +30,31 @@ export class Application {
     async main() {
         const { gl } = this;
         createVbo(gl, vertices);
+        let viewMatrix = new Mat4();
+        viewMatrix.setLookAt(new Vec3(0.2, 0.25, 0.25), new Vec3(0, 0, 0), new Vec3(0, 1, 0));
         let program = initShaders(gl, vert, frag);
         let FSIZE = Float32Array.BYTES_PER_ELEMENT;
-        let mat4Angles = new Mat4().setFromEulerAngles(0, 0, 90);
-        let mat4Scale = new Mat4().setScale(1.5, 1, 1.5);
-        let mat4Translate = new Mat4().setTranslate(0.2, 0.2, 0.2);
+        // let mat4Angles = new Mat4().setFromEulerAngles(0, 0, 90);
+        // let mat4Scale = new Mat4().setScale(1.5, 1, 1.5);
+        // let mat4Translate = new Mat4().setTranslate(0.2, 0.2, 0.2);
+        // let mat4 = mat4Angles.mul(mat4Scale).mul(mat4Translate);
+        // // mat4.setTranslate(0.2, 0.2, 0.2);
+        // mat4.setIdentity();
+        // console.log(mat4);
 
-        let mat4 = mat4Angles.mul(mat4Scale).mul(mat4Translate);
-        // mat4.setTranslate(0.2, 0.2, 0.2);
-        mat4.setIdentity();
-        console.log(mat4);
-        const a_Position = gl.getAttribLocation(program, 'position');
-        gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 5 * FSIZE, 0);
+        const a_Position = gl.getAttribLocation(program, 'a_Position');
+        gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 6 * FSIZE, 0);
         gl.enableVertexAttribArray(a_Position);
-        const a_TexCoord = gl.getAttribLocation(program, 'a_TexCoord');
-        gl.vertexAttribPointer(a_TexCoord, 2, gl.FLOAT, false, 5 * FSIZE, 3 * FSIZE)
-        gl.enableVertexAttribArray(a_TexCoord);
-        const matrix = gl.getUniformLocation(program, 'matrix');
-        (gl as WebGLRenderingContext).uniformMatrix4fv(matrix, false, mat4.data);
-        const image = await loadImage('./assets/images/bg.JPG');
-        const u_Sampler = gl.getUniformLocation(program, 'u_Sampler');
-        loadTexture(gl, u_Sampler, image);
-        const image2 = await loadImage('./assets/images/flare.png');
-        const u_Sampler2 = gl.getUniformLocation(program, 'u_Sampler2');
-        loadTexture(gl, u_Sampler2, image2, 1);
+        const a_Color = gl.getAttribLocation(program, 'a_Color');
+        gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, 6 * FSIZE, 3 * FSIZE)
+        gl.enableVertexAttribArray(a_Color);
+        const u_ViewMatrix = gl.getUniformLocation(program, 'u_ViewMatrix');
+        (gl as WebGLRenderingContext).uniformMatrix4fv(u_ViewMatrix, false, viewMatrix.data);
+
 
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT);
-        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        gl.drawArrays(gl.TRIANGLES, 0, 9);
     }
 }
 
