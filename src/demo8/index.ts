@@ -22,22 +22,38 @@ let n = vertices.length;
 
 export class Application {
     private gl: WebGLRenderingContext | WebGL2RenderingContext;
+    program: WebGLProgram;
     constructor(canvas: HTMLCanvasElement) {
         let gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
         this.gl = gl;
         this.main();
+        let x = 0.2
+        document.onkeydown = (ev) => {
+            if (ev.keyCode === 39) {
+                x += 0.01;
+            }
+            if (ev.keyCode === 37) {
+                x -= 0.01;
+            }
+            this.draw(x);
+        }
     }
     async main() {
         const { gl } = this;
         createVbo(gl, vertices);
         let viewMatrix = new Mat4();
         viewMatrix.setLookAt(new Vec3(0.2, 0.25, 0.25), new Vec3(0, 0, 0), new Vec3(0, 1, 0));
+
+        let modelMatrix = new Mat4();
+        modelMatrix.setFromEulerAngles(0, 0, -10);
+        viewMatrix.mul(modelMatrix);
         let program = initShaders(gl, vert, frag);
+        this.program = program;
         let FSIZE = Float32Array.BYTES_PER_ELEMENT;
+
         // let mat4Angles = new Mat4().setFromEulerAngles(0, 0, 90);
         // let mat4Scale = new Mat4().setScale(1.5, 1, 1.5);
         // let mat4Translate = new Mat4().setTranslate(0.2, 0.2, 0.2);
-        // let mat4 = mat4Angles.mul(mat4Scale).mul(mat4Translate);
         // // mat4.setTranslate(0.2, 0.2, 0.2);
         // mat4.setIdentity();
         // console.log(mat4);
@@ -52,6 +68,19 @@ export class Application {
         (gl as WebGLRenderingContext).uniformMatrix4fv(u_ViewMatrix, false, viewMatrix.data);
 
 
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.drawArrays(gl.TRIANGLES, 0, 9);
+    }
+    async draw(x) {
+        const { gl, program } = this;
+        let viewMatrix = new Mat4();
+        viewMatrix.setLookAt(new Vec3(x, 0.25, 0.25), new Vec3(0, 0, 0), new Vec3(0, 1, 0));
+        let modelMatrix = new Mat4();
+        modelMatrix.setFromEulerAngles(0, 0, -10);
+        viewMatrix.mul(modelMatrix);
+        const u_ViewMatrix = gl.getUniformLocation(program, 'u_ViewMatrix');
+        (gl as WebGLRenderingContext).uniformMatrix4fv(u_ViewMatrix, false, viewMatrix.data);
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT);
         gl.drawArrays(gl.TRIANGLES, 0, 9);
