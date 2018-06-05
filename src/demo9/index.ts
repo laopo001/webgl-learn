@@ -6,17 +6,17 @@ import { Vec4, Vec3 } from '../math';
 let canvas = document.getElementById('root') as HTMLCanvasElement;
 
 let vertices = new Float32Array([
-    0, 0.5, -0.4, 0.4, 1, 0.4,
-    -0.5, -0.5, -0.4, 0.4, 1, 0.4,
-    0.5, -0.5, -0.4, 0, 0, 1,
+    0, 1, -4, 0.4, 1, 0.4,
+    -0.5, -1, -4, 0.4, 1, 0.4, // 绿
+    0.5, -1, -4, 1, 1, 1,
 
-    0.5, 0.4, -0.2, 1, 0.4, 0.4,
-    -0.5, 0.4, -0.2, 1, 1, 0.4,
-    0, -0.6, -0.2, 1, 1, 0.4,
+    0, 1, -2, 1, 1, 0.4,
+    -0.5, -1, -2, 1, 1, 0.4, // 黄
+    0.5, -1, -2, 1, 1, 0.4,
 
-    0, 0.5, 0, 0.4, 0.4, 1,
-    -0.5, -0.5, 0, 0.4, 0.4, 1,
-    0.5, -0.5, 0, 1, 1, 1
+    0, 1, 0, 0.4, 0.4, 1,
+    -0.5, -1, 0, 0.4, 0.4, 1, // 蓝
+    0.5, -1, 0, 0.4, 0.4, 1,
 ])
 let n = vertices.length;
 
@@ -32,10 +32,10 @@ export class Application {
         const { gl } = this;
         createVbo(gl, vertices);
         let viewMatrix = new Mat4();
-        viewMatrix.setLookAt(new Vec3(0, 0.1, 1), new Vec3(0, 0, 0), new Vec3(0, 1, 0));
-        let projMatrix = new Mat4().setOrtho(-1, 1, -1, 1, -2, 2);
+        viewMatrix.setLookAt(new Vec3(0, -0.1, 1), new Vec3(0, 0, 0), new Vec3(0, 1, 0));
+        let projMatrix = new Mat4().setOrtho(-2, 2, -2, 2, -10, 10);
         let modelMatrix = new Mat4();
-        modelMatrix.setFromEulerAngles(0, 0, -10);
+        // modelMatrix.setFromEulerAngles(0, 0, -10);
         viewMatrix.mul(modelMatrix);
         let program = initShaders(gl, vert, frag);
         this.program = program;
