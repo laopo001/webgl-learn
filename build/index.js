@@ -215,7 +215,7 @@ module.exports = "attribute vec4 a_Position;\r\nattribute vec4 a_Color;\r\nunifo
 /*!***************************!*\
   !*** ./src/math/index.ts ***!
   \***************************/
-/*! exports provided: Mat4, Vec3, Quat, Vec2, Vec4, Mat3 */
+/*! exports provided: Vec3, Vec4, Mat4, Quat, Vec2, Mat3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
