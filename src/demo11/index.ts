@@ -45,7 +45,7 @@ export class Application {
     projMatrix.setPerspective(30, canvas.width / canvas.height, 1, 1000);
     let modelMatrix = new Mat4();
     // modelMatrix.setTranslate(1, 0, 0);
-    // modelMatrix.setFromEulerAngles(0, 0, -10);
+    modelMatrix.setFromEulerAngles(0, 45, -10);
     let mvpMatrix = new Mat4().mul(projMatrix).mul(viewMatrix).mul(modelMatrix);
     let program = initShaders(gl, vert, frag);
     this.program = program;

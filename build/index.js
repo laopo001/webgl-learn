@@ -177,6 +177,8 @@ var Application = /** @class */ (function () {
                 projMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]();
                 projMatrix.setPerspective(30, canvas.width / canvas.height, 1, 1000);
                 modelMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]();
+                // modelMatrix.setTranslate(1, 0, 0);
+                modelMatrix.setFromEulerAngles(0, 45, -10);
                 mvpMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().mul(projMatrix).mul(viewMatrix).mul(modelMatrix);
                 program = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["initShaders"])(gl, _vertex_vert__WEBPACK_IMPORTED_MODULE_0___default.a, _fragment_frag__WEBPACK_IMPORTED_MODULE_1___default.a);
                 this.program = program;
