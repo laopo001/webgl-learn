@@ -6,24 +6,24 @@ import { Vec4, Vec3 } from '../math';
 let canvas = document.getElementById('root') as HTMLCanvasElement;
 
 let vertices = new Float32Array([
-    // Vertex coordinates and color
-    1.0,  1.0,  1.0,     1.0,  1.0,  1.0,  // v0 White
-    -1.0,  1.0,  1.0,     1.0,  0.0,  1.0,  // v1 Magenta
-    -1.0, -1.0,  1.0,     1.0,  0.0,  0.0,  // v2 Red
-     1.0, -1.0,  1.0,     1.0,  1.0,  0.0,  // v3 Yellow
-     1.0, -1.0, -1.0,     0.0,  1.0,  0.0,  // v4 Green
-     1.0,  1.0, -1.0,     0.0,  1.0,  1.0,  // v5 Cyan
-    -1.0,  1.0, -1.0,     0.0,  0.0,  1.0,  // v6 Blue
-    -1.0, -1.0, -1.0,     0.0,  0.0,  0.0   // v7 Black
+  // Vertex coordinates and color
+  1.0, 1.0, 1.0, 1.0, 1.0, 1.0,  // v0 White
+  -1.0, 1.0, 1.0, 1.0, 0.0, 1.0,  // v1 Magenta
+  -1.0, -1.0, 1.0, 1.0, 0.0, 0.0,  // v2 Red
+  1.0, -1.0, 1.0, 1.0, 1.0, 0.0,  // v3 Yellow
+  1.0, -1.0, -1.0, 0.0, 1.0, 0.0,  // v4 Green
+  1.0, 1.0, -1.0, 0.0, 1.0, 1.0,  // v5 Cyan
+  -1.0, 1.0, -1.0, 0.0, 0.0, 1.0,  // v6 Blue
+  -1.0, -1.0, -1.0, 0.0, 0.0, 0.0   // v7 Black
 ])
 
 let indices = new Uint8Array([
-  0, 1, 2,   0, 2, 3,    // front
-  0, 3, 4,   0, 4, 5,    // right
-  0, 5, 6,   0, 6, 1,    // up
-  1, 6, 7,   1, 7, 2,    // left
-  7, 4, 3,   7, 3, 2,    // down
-  4, 7, 6,   4, 6, 5     // back
+  0, 1, 2, 0, 2, 3,    // front
+  0, 3, 4, 0, 4, 5,    // right
+  0, 5, 6, 0, 6, 1,    // up
+  1, 6, 7, 1, 7, 2,    // left
+  7, 4, 3, 7, 3, 2,    // down
+  4, 7, 6, 4, 6, 5     // back
 ]);
 let n = indices.length;
 
@@ -40,12 +40,12 @@ export class Application {
     const { gl } = this;
     createVbo(gl, vertices);
     createIbo(gl, indices);
-    let viewMatrix = new Mat4().setLookAt(new Vec3(0, 2, -10), new Vec3(0, 0, 0), new Vec3(0, 1, 0));
+    let viewMatrix = new Mat4().setLookAt(new Vec3(0, 0, -10), new Vec3(0, 0, 0), new Vec3(0, 1, 0));
     let projMatrix = new Mat4();
-    projMatrix.setPerspective(30, canvas.width / canvas.height, 1, 1000);
+    projMatrix.setPerspective(45, canvas.width / canvas.height, 1, 1000);
     let modelMatrix = new Mat4();
     // modelMatrix.setTranslate(1, 0, 0);
-    modelMatrix.setFromEulerAngles(0, 45, -10);
+    modelMatrix.setFromEulerAngles(45, 45, 20);
     let mvpMatrix = new Mat4().mul(projMatrix).mul(viewMatrix).mul(modelMatrix);
     let program = initShaders(gl, vert, frag);
     this.program = program;
