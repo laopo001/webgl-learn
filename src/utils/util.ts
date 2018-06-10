@@ -41,6 +41,15 @@ export function createVbo(gl: WebGLRenderingContext, data: Float32Array): WebGLB
     gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
     return vbo;
 }
+export function createIbo(gl: WebGLRenderingContext, data: Uint8Array): WebGLBuffer {
+    // 创建缓存区对象
+    let vbo = gl.createBuffer();
+    // 将缓冲区对象绑定到目标
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, vbo);
+    // 想向缓冲区对象中写入数据
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, data, gl.STATIC_DRAW);
+    return vbo;
+}
 
 export function loadImage(url: string) {
     return new Promise<HTMLImageElement>((resolve, reject) => {

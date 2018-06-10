@@ -66,14 +66,14 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/demo10/index.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/demo11/index.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/demo10/fragment.frag":
+/***/ "./src/demo11/fragment.frag":
 /*!**********************************!*\
-  !*** ./src/demo10/fragment.frag ***!
+  !*** ./src/demo11/fragment.frag ***!
   \**********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -82,9 +82,9 @@ module.exports = "precision mediump float;\r\nvarying vec4 v_Color;            \
 
 /***/ }),
 
-/***/ "./src/demo10/index.ts":
+/***/ "./src/demo11/index.ts":
 /*!*****************************!*\
-  !*** ./src/demo10/index.ts ***!
+  !*** ./src/demo11/index.ts ***!
   \*****************************/
 /*! exports provided: Application */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -92,9 +92,9 @@ module.exports = "precision mediump float;\r\nvarying vec4 v_Color;            \
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Application", function() { return Application; });
-/* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vertex.vert */ "./src/demo10/vertex.vert");
+/* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vertex.vert */ "./src/demo11/vertex.vert");
 /* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_vertex_vert__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fragment.frag */ "./src/demo10/fragment.frag");
+/* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fragment.frag */ "./src/demo11/fragment.frag");
 /* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_fragment_frag__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _math_mat4__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../math/mat4 */ "./src/math/mat4.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
@@ -141,18 +141,25 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 var canvas = document.getElementById('root');
 var vertices = new Float32Array([
-    0, 1, -4, 0.4, 1, 0.4,
-    -0.5, -1, -4, 0.4, 1, 0.4,
-    0.5, -1, -4, 1, 1, 1,
-    0, 1, -2, 1, 1, 0.4,
-    -0.5, -1, -2, 1, 1, 0.4,
-    0.5, -1, -2, 1, 1, 0.4,
-    0, 1, 0, 0.4, 0.4, 1,
-    -0.5, -1, 0, 0.4, 0.4, 1,
-    0.5, -1, 0, 0.4, 0.4, 1,
+    // Vertex coordinates and color
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    -1.0, 1.0, 1.0, 1.0, 0.0, 1.0,
+    -1.0, -1.0, 1.0, 1.0, 0.0, 0.0,
+    1.0, -1.0, 1.0, 1.0, 1.0, 0.0,
+    1.0, -1.0, -1.0, 0.0, 1.0, 0.0,
+    1.0, 1.0, -1.0, 0.0, 1.0, 1.0,
+    -1.0, 1.0, -1.0, 0.0, 0.0, 1.0,
+    -1.0, -1.0, -1.0, 0.0, 0.0, 0.0 // v7 Black
 ]);
-var n = vertices.length;
-console.log(canvas.width / canvas.height);
+var indices = new Uint8Array([
+    0, 1, 2, 0, 2, 3,
+    0, 3, 4, 0, 4, 5,
+    0, 5, 6, 0, 6, 1,
+    1, 6, 7, 1, 7, 2,
+    7, 4, 3, 7, 3, 2,
+    4, 7, 6, 4, 6, 5 // back
+]);
+var n = indices.length;
 var Application = /** @class */ (function () {
     function Application(canvas) {
         var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
@@ -165,11 +172,11 @@ var Application = /** @class */ (function () {
             return __generator(this, function (_a) {
                 gl = this.gl;
                 Object(_utils__WEBPACK_IMPORTED_MODULE_3__["createVbo"])(gl, vertices);
-                viewMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setLookAt(new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 0, -10), new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 0, 100), new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 1, 0));
+                Object(_utils__WEBPACK_IMPORTED_MODULE_3__["createIbo"])(gl, indices);
+                viewMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setLookAt(new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 2, -10), new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 0, 0), new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 1, 0));
                 projMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]();
                 projMatrix.setPerspective(30, canvas.width / canvas.height, 1, 1000);
                 modelMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]();
-                modelMatrix.setTranslate(1, 0, 0);
                 mvpMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().mul(projMatrix).mul(viewMatrix).mul(modelMatrix);
                 program = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["initShaders"])(gl, _vertex_vert__WEBPACK_IMPORTED_MODULE_0___default.a, _fragment_frag__WEBPACK_IMPORTED_MODULE_1___default.a);
                 this.program = program;
@@ -183,11 +190,11 @@ var Application = /** @class */ (function () {
                 u_MvpjMatrix = gl.getUniformLocation(program, 'u_MvpjMatrix');
                 gl.uniformMatrix4fv(u_MvpjMatrix, false, mvpMatrix.data);
                 // 深度测试
-                // gl.enable(gl.DEPTH_TEST);
-                // gl.clear(gl.DEPTH_BUFFER_BIT);
+                gl.enable(gl.DEPTH_TEST);
+                gl.clear(gl.DEPTH_BUFFER_BIT);
                 gl.clearColor(0.0, 0.0, 0.0, 1.0);
                 gl.clear(gl.COLOR_BUFFER_BIT);
-                gl.drawArrays(gl.TRIANGLES, 0, 9);
+                gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
                 return [2 /*return*/];
             });
         });
@@ -200,9 +207,9 @@ new Application(canvas);
 
 /***/ }),
 
-/***/ "./src/demo10/vertex.vert":
+/***/ "./src/demo11/vertex.vert":
 /*!********************************!*\
-  !*** ./src/demo10/vertex.vert ***!
+  !*** ./src/demo11/vertex.vert ***!
   \********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -215,7 +222,7 @@ module.exports = "attribute vec4 a_Position;\r\nattribute vec4 a_Color;\r\nunifo
 /*!***************************!*\
   !*** ./src/math/index.ts ***!
   \***************************/
-/*! exports provided: Vec3, Vec4, Mat4, Quat, Vec2, Mat3 */
+/*! exports provided: Mat4, Vec3, Quat, Vec2, Vec4, Mat3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4072,7 +4079,7 @@ var Vec4 = /** @class */ (function () {
 /*!****************************!*\
   !*** ./src/utils/index.ts ***!
   \****************************/
-/*! exports provided: initShaders, createProgram, loadShader, createVbo, loadImage, loadTexture */
+/*! exports provided: initShaders, createProgram, loadShader, createVbo, createIbo, loadImage, loadTexture */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4085,6 +4092,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "loadShader", function() { return _util__WEBPACK_IMPORTED_MODULE_0__["loadShader"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createVbo", function() { return _util__WEBPACK_IMPORTED_MODULE_0__["createVbo"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createIbo", function() { return _util__WEBPACK_IMPORTED_MODULE_0__["createIbo"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "loadImage", function() { return _util__WEBPACK_IMPORTED_MODULE_0__["loadImage"]; });
 
@@ -4099,7 +4108,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!***************************!*\
   !*** ./src/utils/util.ts ***!
   \***************************/
-/*! exports provided: initShaders, createProgram, loadShader, createVbo, loadImage, loadTexture */
+/*! exports provided: initShaders, createProgram, loadShader, createVbo, createIbo, loadImage, loadTexture */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4108,6 +4117,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createProgram", function() { return createProgram; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadShader", function() { return loadShader; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createVbo", function() { return createVbo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createIbo", function() { return createIbo; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadImage", function() { return loadImage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadTexture", function() { return loadTexture; });
 function initShaders(gl, vshader, fshader) {
@@ -4147,6 +4157,15 @@ function createVbo(gl, data) {
     gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
     // 想向缓冲区对象中写入数据
     gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
+    return vbo;
+}
+function createIbo(gl, data) {
+    // 创建缓存区对象
+    var vbo = gl.createBuffer();
+    // 将缓冲区对象绑定到目标
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, vbo);
+    // 想向缓冲区对象中写入数据
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, data, gl.STATIC_DRAW);
     return vbo;
 }
 function loadImage(url) {
