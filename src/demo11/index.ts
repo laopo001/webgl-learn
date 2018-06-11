@@ -68,6 +68,7 @@ export class Application {
     gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
   }
 
+  
 }
 
 new Application(canvas);
