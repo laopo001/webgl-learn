@@ -40,12 +40,12 @@ export class Application {
     const { gl } = this;
     createVbo(gl, vertices);
     createIbo(gl, indices);
-    let viewMatrix = new Mat4().setLookAt(new Vec3(0, 0, -10), new Vec3(0, 0, 0), new Vec3(0, 1, 0));
+    let viewMatrix = new Mat4().setLookAt(new Vec3(4, 2, -10), new Vec3(0, 0, 0), new Vec3(0, 1, 0));
     let projMatrix = new Mat4();
     projMatrix.setPerspective(45, canvas.width / canvas.height, 1, 1000);
     let modelMatrix = new Mat4();
-    // modelMatrix.setTranslate(1, 0, 0);
-    modelMatrix.setFromEulerAngles(45, 45, 20);
+    // modelMatrix.setTranslate(0, 0, 10);
+    // modelMatrix.setFromEulerAngles(45, 45, 45);
     let mvpMatrix = new Mat4().mul(projMatrix).mul(viewMatrix).mul(modelMatrix);
     let program = initShaders(gl, vert, frag);
     this.program = program;

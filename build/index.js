@@ -173,12 +173,10 @@ var Application = /** @class */ (function () {
                 gl = this.gl;
                 Object(_utils__WEBPACK_IMPORTED_MODULE_3__["createVbo"])(gl, vertices);
                 Object(_utils__WEBPACK_IMPORTED_MODULE_3__["createIbo"])(gl, indices);
-                viewMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setLookAt(new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 0, -10), new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 0, 0), new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 1, 0));
+                viewMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setLookAt(new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](4, 2, -10), new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 0, 0), new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 1, 0));
                 projMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]();
                 projMatrix.setPerspective(45, canvas.width / canvas.height, 1, 1000);
                 modelMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]();
-                // modelMatrix.setTranslate(1, 0, 0);
-                modelMatrix.setFromEulerAngles(45, 45, 20);
                 mvpMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().mul(projMatrix).mul(viewMatrix).mul(modelMatrix);
                 program = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["initShaders"])(gl, _vertex_vert__WEBPACK_IMPORTED_MODULE_0___default.a, _fragment_frag__WEBPACK_IMPORTED_MODULE_1___default.a);
                 this.program = program;
