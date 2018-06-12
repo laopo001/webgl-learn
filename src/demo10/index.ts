@@ -32,7 +32,7 @@ export class Application {
     async main() {
         const { gl } = this;
         createVbo(gl, vertices);
-        let viewMatrix = new Mat4().setLookAt(new Vec3(0, 0, -10), new Vec3(0, 0, 100), new Vec3(0, 1, 0));
+        let viewMatrix = new Mat4().setLookAt(new Vec3(0, 0, 10), new Vec3(0, 0, 0), new Vec3(0, 1, 0)).invert();
         let projMatrix = new Mat4();
         projMatrix.setPerspective(30, canvas.width / canvas.height, 1, 1000);
         let modelMatrix = new Mat4();

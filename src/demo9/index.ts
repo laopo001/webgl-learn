@@ -32,7 +32,7 @@ export class Application {
         const { gl } = this;
         createVbo(gl, vertices);
         let viewMatrix = new Mat4();
-        viewMatrix.setLookAt(new Vec3(0, -0.1, 1), new Vec3(0, 0, 0), new Vec3(0, 1, 0));
+        viewMatrix.setLookAt(new Vec3(0, -0.1, 1), new Vec3(0, 0, 0), new Vec3(0, 1, 0)).invert();
         let projMatrix = new Mat4().setOrtho(-2, 2, -2, 2, -10, 10);
         let modelMatrix = new Mat4();
         // modelMatrix.setFromEulerAngles(0, 0, -10);
