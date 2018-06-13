@@ -31,7 +31,7 @@ export class Application {
         const { gl } = this;
         createVbo(gl, vertices);
         let viewMatrix = new Mat4();
-        viewMatrix.setLookAt(new Vec3(0.2, 0.25, 0.25), new Vec3(0, 0, 0), new Vec3(0, 1, 0));
+        viewMatrix.setLookAt(new Vec3(0.2, 0.25, 0.25), new Vec3(0, 0, 0), new Vec3(0, 1, 0)).invert();
         let program = initShaders(gl, vert, frag);
         let FSIZE = Float32Array.BYTES_PER_ELEMENT;
         // let mat4Angles = new Mat4().setFromEulerAngles(0, 0, 90);

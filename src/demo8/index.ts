@@ -42,7 +42,7 @@ export class Application {
         const { gl } = this;
         createVbo(gl, vertices);
         let viewMatrix = new Mat4();
-        viewMatrix.setLookAt(new Vec3(0.2, 0.25, 0.25), new Vec3(0, 0, 0), new Vec3(0, 1, 0));
+        viewMatrix.setLookAt(new Vec3(0.2, 0.25, 0.25), new Vec3(0, 0, 0), new Vec3(0, 1, 0)).invert();
 
         let modelMatrix = new Mat4();
         modelMatrix.setFromEulerAngles(0, 0, -10);
@@ -75,7 +75,7 @@ export class Application {
     async draw(x) {
         const { gl, program } = this;
         let viewMatrix = new Mat4();
-        viewMatrix.setLookAt(new Vec3(x, 0.25, 0.25), new Vec3(0, 0, 0), new Vec3(0, 1, 0));
+        viewMatrix.setLookAt(new Vec3(x, 0.25, 0.25), new Vec3(0, 0, 0), new Vec3(0, 1, 0)).invert();
         let modelMatrix = new Mat4();
         modelMatrix.setFromEulerAngles(0, 0, -10);
         viewMatrix.mul(modelMatrix);
