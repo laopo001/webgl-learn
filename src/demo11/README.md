@@ -1,3 +1,2 @@
-第七章
-helloCube.js
-绘制立方体
+### 第七章helloCube.js绘制立方体
+

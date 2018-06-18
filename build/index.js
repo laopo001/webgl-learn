@@ -66,35 +66,35 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/demo7/index.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/demo12/index.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/demo7/fragment.frag":
-/*!*********************************!*\
-  !*** ./src/demo7/fragment.frag ***!
-  \*********************************/
+/***/ "./src/demo12/fragment.frag":
+/*!**********************************!*\
+  !*** ./src/demo12/fragment.frag ***!
+  \**********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "precision mediump float;\r\nvarying vec4 v_Color;            \r\n\r\nvoid main(void) {                          \r\n    gl_FragColor = v_Color;                \r\n}"
+module.exports = "#ifdef GL_ES\r\n    precision mediump float;\r\n#endif\r\nvarying vec4 v_Color;            \r\n\r\nvoid main(void) {                          \r\n    gl_FragColor = v_Color;                \r\n}"
 
 /***/ }),
 
-/***/ "./src/demo7/index.ts":
-/*!****************************!*\
-  !*** ./src/demo7/index.ts ***!
-  \****************************/
+/***/ "./src/demo12/index.ts":
+/*!*****************************!*\
+  !*** ./src/demo12/index.ts ***!
+  \*****************************/
 /*! exports provided: Application */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Application", function() { return Application; });
-/* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vertex.vert */ "./src/demo7/vertex.vert");
+/* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vertex.vert */ "./src/demo12/vertex.vert");
 /* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_vertex_vert__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fragment.frag */ "./src/demo7/fragment.frag");
+/* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fragment.frag */ "./src/demo12/fragment.frag");
 /* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_fragment_frag__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _math_mat4__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../math/mat4 */ "./src/math/mat4.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
@@ -140,18 +140,48 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 var canvas = document.getElementById('root');
+// Create a cube
+//    v6----- v5
+//   /|      /|
+//  v1------v0|
+//  | |     | |
+//  | |v7---|-|v4
+//  |/      |/
+//  v2------v3
 var vertices = new Float32Array([
-    0, 0.5, -0.4, 0.4, 1, 0.4,
-    -0.5, -0.5, -0.4, 0.4, 1, 0.4,
-    0.5, -0.5, -0.4, 1, 0.4, 0.4,
-    0.5, 0.4, -0.2, 1, 0.4, 0.4,
-    -0.5, 0.4, -0.2, 1, 1, 0.4,
-    0, -0.6, -0.2, 1, 1, 0.4,
-    0, 0.5, 0, 0.4, 0.4, 1,
-    -0.5, -0.5, 0, 0.4, 0.4, 1,
-    0.5, -0.5, 0, 1, 0.4, 0.4
+    1.0, 1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, 1.0, 1.0, -1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, 1.0, 1.0, -1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, -1.0, -1.0, 1.0, -1.0, -1.0, 1.0, 1.0,
+    -1.0, 1.0, 1.0, -1.0, 1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, 1.0,
+    -1.0, -1.0, -1.0, 1.0, -1.0, -1.0, 1.0, -1.0, 1.0, -1.0, -1.0, 1.0,
+    1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0 // v4-v7-v6-v5 back
 ]);
-var n = vertices.length;
+var colors = new Float32Array([
+    1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,
+    1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,
+    1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,
+    1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,
+    1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,
+    1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0 // v4-v7-v6-v5 back
+]);
+var normals = new Float32Array([
+    0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0,
+    1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+    0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0,
+    -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0,
+    0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0,
+    0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0 // v4-v7-v6-v5 back
+]);
+// Indices of the vertices
+var indices = new Uint8Array([
+    0, 1, 2, 0, 2, 3,
+    4, 5, 6, 4, 6, 7,
+    8, 9, 10, 8, 10, 11,
+    12, 13, 14, 12, 14, 15,
+    16, 17, 18, 16, 18, 19,
+    20, 21, 22, 20, 22, 23 // back
+]);
+var n = indices.length;
 var Application = /** @class */ (function () {
     function Application(canvas) {
         var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
@@ -160,25 +190,47 @@ var Application = /** @class */ (function () {
     }
     Application.prototype.main = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var gl, viewMatrix, program, FSIZE, a_Position, a_Color, u_ViewMatrix;
+            var gl, viewMatrix, projMatrix, modelMatrix, mvpMatrix, program, FSIZE, a_Position, a_Color, a_Normal, u_LightColor, u_LightDirection, lightDirection, u_MvpjMatrix;
             return __generator(this, function (_a) {
+                if (this.gl instanceof WebGL2RenderingContext) {
+                    return [2 /*return*/];
+                }
                 gl = this.gl;
-                Object(_utils__WEBPACK_IMPORTED_MODULE_3__["createVbo"])(gl, vertices);
-                viewMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]();
-                viewMatrix.setLookAt(new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0.2, 0.25, 0.25), new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 0, 0), new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 1, 0)).invert();
+                Object(_utils__WEBPACK_IMPORTED_MODULE_3__["createIbo"])(gl, indices);
+                viewMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setLookAt(new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](3, 3, 7), new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 0, 0), new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 1, 0)).invert();
+                projMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]();
+                projMatrix.setPerspective(45, canvas.width / canvas.height, 1, 1000);
+                modelMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]();
+                mvpMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().mul(projMatrix).mul(viewMatrix).mul(modelMatrix);
                 program = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["initShaders"])(gl, _vertex_vert__WEBPACK_IMPORTED_MODULE_0___default.a, _fragment_frag__WEBPACK_IMPORTED_MODULE_1___default.a);
+                this.program = program;
                 FSIZE = Float32Array.BYTES_PER_ELEMENT;
+                Object(_utils__WEBPACK_IMPORTED_MODULE_3__["createVbo"])(gl, vertices);
                 a_Position = gl.getAttribLocation(program, 'a_Position');
-                gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 6 * FSIZE, 0);
+                gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 0, 0);
                 gl.enableVertexAttribArray(a_Position);
+                Object(_utils__WEBPACK_IMPORTED_MODULE_3__["createVbo"])(gl, colors);
                 a_Color = gl.getAttribLocation(program, 'a_Color');
-                gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, 6 * FSIZE, 3 * FSIZE);
+                gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, 0, 0);
                 gl.enableVertexAttribArray(a_Color);
-                u_ViewMatrix = gl.getUniformLocation(program, 'u_ViewMatrix');
-                gl.uniformMatrix4fv(u_ViewMatrix, false, viewMatrix.data);
+                Object(_utils__WEBPACK_IMPORTED_MODULE_3__["createVbo"])(gl, normals);
+                a_Normal = gl.getAttribLocation(program, 'a_Normal');
+                gl.vertexAttribPointer(a_Normal, 3, gl.FLOAT, false, 0, 0);
+                gl.enableVertexAttribArray(a_Normal);
+                u_LightColor = gl.getUniformLocation(program, 'u_LightColor');
+                gl.uniform3f(u_LightColor, 1.0, 1.0, 1.0);
+                u_LightDirection = gl.getUniformLocation(program, 'u_LightDirection');
+                lightDirection = new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"]([0.5, 3.0, 4.0]);
+                lightDirection.normalize(); // Normalize
+                gl.uniform3fv(u_LightDirection, lightDirection.data);
+                u_MvpjMatrix = gl.getUniformLocation(program, 'u_MvpjMatrix');
+                gl.uniformMatrix4fv(u_MvpjMatrix, false, mvpMatrix.data);
+                // 深度测试
+                gl.enable(gl.DEPTH_TEST);
+                gl.clear(gl.DEPTH_BUFFER_BIT);
                 gl.clearColor(0.0, 0.0, 0.0, 1.0);
                 gl.clear(gl.COLOR_BUFFER_BIT);
-                gl.drawArrays(gl.TRIANGLES, 0, 9);
+                gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
                 return [2 /*return*/];
             });
         });
@@ -191,14 +243,14 @@ new Application(canvas);
 
 /***/ }),
 
-/***/ "./src/demo7/vertex.vert":
-/*!*******************************!*\
-  !*** ./src/demo7/vertex.vert ***!
-  \*******************************/
+/***/ "./src/demo12/vertex.vert":
+/*!********************************!*\
+  !*** ./src/demo12/vertex.vert ***!
+  \********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "attribute vec4 a_Position;\r\nattribute vec4 a_Color;\r\nuniform mat4 u_ViewMatrix;\r\nvarying vec4 v_Color;\r\n\r\nvoid main(){  \r\n    gl_Position = u_ViewMatrix * a_Position;\r\n    v_Color = a_Color;\r\n}"
+module.exports = "attribute vec4 a_Position;\r\nattribute vec4 a_Color; // 法向量\r\nattribute vec4 a_Normal;\r\nuniform mat4 u_MvpjMatrix;\r\nuniform vec3 u_LightColor; // 光线颜色\r\nuniform vec3 u_LightDirection; // 归一化的世界坐标\r\nvarying vec4 v_Color;\r\n\r\nvoid main(){  \r\n    gl_Position = u_MvpjMatrix * a_Position;\r\n    vec3 normal = normalize(vec3(a_Normal));\r\n    float nDotL = max(dot(u_LightDirection,normal), 0.0);\r\n    vec3 diffuse = u_LightColor * vec3(a_Color)* nDotL;\r\n    v_Color = vec4(diffuse, a_Color.a);\r\n}"
 
 /***/ }),
 
@@ -206,7 +258,7 @@ module.exports = "attribute vec4 a_Position;\r\nattribute vec4 a_Color;\r\nunifo
 /*!***************************!*\
   !*** ./src/math/index.ts ***!
   \***************************/
-/*! exports provided: Vec3, Vec4, Mat4, Quat, Vec2, Mat3 */
+/*! exports provided: Mat4, Vec3, Quat, Vec2, Vec4, Mat3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
