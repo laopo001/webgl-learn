@@ -66,25 +66,25 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/demo12/index.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/demo13/index.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/demo12/fragment.frag":
+/***/ "./src/demo13/fragment.frag":
 /*!**********************************!*\
-  !*** ./src/demo12/fragment.frag ***!
+  !*** ./src/demo13/fragment.frag ***!
   \**********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "#ifdef GL_ES\r\n    precision mediump float;\r\n#endif\r\nvarying vec4 v_Color;            \r\n\r\nvoid main(void) {                          \r\n    gl_FragColor = v_Color;                \r\n}"
+module.exports = "precision mediump float;\r\nvarying vec4 v_Color;            \r\n\r\nvoid main(void) {                          \r\n    gl_FragColor = v_Color;                \r\n}"
 
 /***/ }),
 
-/***/ "./src/demo12/index.ts":
+/***/ "./src/demo13/index.ts":
 /*!*****************************!*\
-  !*** ./src/demo12/index.ts ***!
+  !*** ./src/demo13/index.ts ***!
   \*****************************/
 /*! exports provided: Application */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -92,9 +92,9 @@ module.exports = "#ifdef GL_ES\r\n    precision mediump float;\r\n#endif\r\nvary
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Application", function() { return Application; });
-/* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vertex.vert */ "./src/demo12/vertex.vert");
+/* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vertex.vert */ "./src/demo13/vertex.vert");
 /* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_vertex_vert__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fragment.frag */ "./src/demo12/fragment.frag");
+/* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fragment.frag */ "./src/demo13/fragment.frag");
 /* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_fragment_frag__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _math_mat4__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../math/mat4 */ "./src/math/mat4.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
@@ -190,7 +190,7 @@ var Application = /** @class */ (function () {
     }
     Application.prototype.main = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var gl, viewMatrix, projMatrix, modelMatrix, mvpMatrix, program, FSIZE, a_Position, a_Color, a_Normal, u_LightColor, u_LightDirection, lightDirection, u_MvpjMatrix;
+            var gl, viewMatrix, projMatrix, modelMatrix, mvpMatrix, program, FSIZE, a_Position, a_Color, a_Normal, u_AmbientLight, u_LightColor, u_LightDirection, lightDirection, u_MvpjMatrix;
             return __generator(this, function (_a) {
                 if (this.gl instanceof WebGL2RenderingContext) {
                     return [2 /*return*/];
@@ -217,6 +217,8 @@ var Application = /** @class */ (function () {
                 a_Normal = gl.getAttribLocation(program, 'a_Normal');
                 gl.vertexAttribPointer(a_Normal, 3, gl.FLOAT, false, 0, 0);
                 gl.enableVertexAttribArray(a_Normal);
+                u_AmbientLight = gl.getUniformLocation(program, 'u_AmbientLight');
+                gl.uniform3f(u_AmbientLight, 0.2, 0.2, 0.2);
                 u_LightColor = gl.getUniformLocation(program, 'u_LightColor');
                 gl.uniform3f(u_LightColor, 1.0, 1.0, 1.0);
                 u_LightDirection = gl.getUniformLocation(program, 'u_LightDirection');
@@ -243,14 +245,14 @@ new Application(canvas);
 
 /***/ }),
 
-/***/ "./src/demo12/vertex.vert":
+/***/ "./src/demo13/vertex.vert":
 /*!********************************!*\
-  !*** ./src/demo12/vertex.vert ***!
+  !*** ./src/demo13/vertex.vert ***!
   \********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "attribute vec4 a_Position;\r\nattribute vec4 a_Color; // 法向量\r\nattribute vec4 a_Normal;\r\nuniform mat4 u_MvpjMatrix;\r\nuniform vec3 u_LightColor; // 光线颜色\r\nuniform vec3 u_LightDirection; // 归一化的世界坐标\r\nvarying vec4 v_Color;\r\n\r\nvoid main(){  \r\n    gl_Position = u_MvpjMatrix * a_Position;\r\n    vec3 normal = normalize(vec3(a_Normal));\r\n    float nDotL = max(dot(u_LightDirection,normal), 0.0);\r\n    vec3 diffuse = u_LightColor * vec3(a_Color)* nDotL;\r\n    v_Color = vec4(diffuse, a_Color.a);\r\n}"
+module.exports = "attribute vec4 a_Position;\r\nattribute vec4 a_Color; // 法向量\r\nattribute vec4 a_Normal;\r\nuniform mat4 u_MvpjMatrix;\r\nuniform vec3 u_LightColor; // 光线颜色\r\nuniform vec3 u_LightDirection; // 归一化的世界坐标\r\nuniform vec3 u_AmbientLight; // 环境光颜色\r\nvarying vec4 v_Color;\r\n\r\nvoid main(){  \r\n    gl_Position = u_MvpjMatrix * a_Position;\r\n    vec3 normal = normalize(vec3(a_Normal));\r\n    float nDotL = max(dot(u_LightDirection,normal), 0.0);\r\n    vec3 diffuse = u_LightColor * vec3(a_Color)* nDotL;\r\n    v_Color = vec4(diffuse + u_AmbientLight, a_Color.a);\r\n}"
 
 /***/ }),
 
@@ -258,7 +260,7 @@ module.exports = "attribute vec4 a_Position;\r\nattribute vec4 a_Color; // 法�
 /*!***************************!*\
   !*** ./src/math/index.ts ***!
   \***************************/
-/*! exports provided: Mat4, Vec3, Quat, Vec2, Vec4, Mat3 */
+/*! exports provided: Vec3, Vec4, Mat4, Quat, Vec2, Mat3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
