@@ -72,9 +72,9 @@ export class Application {
     createIbo(gl, indices);
     let viewMatrix = new Mat4().setLookAt(new Vec3(3, 3, 7), new Vec3(0, 0, 0), new Vec3(0, 1, 0)).invert();
     let projMatrix = new Mat4();
-    projMatrix.setPerspective(45, canvas.width / canvas.height, 1, 1000);
+    projMatrix.setPerspective(45, canvas.width / canvas.height, 1, 100);
     let modelMatrix = new Mat4();
-    modelMatrix.setTranslate(0, 0, 1);
+    // modelMatrix.setTranslate(0, 0, 1);
     modelMatrix.setFromEulerAngles(45, 45, 45);
     let mvpMatrix = new Mat4().mul(projMatrix).mul(viewMatrix).mul(modelMatrix);
     let program = initShaders(gl, vert, frag);
@@ -93,8 +93,14 @@ export class Application {
     gl.vertexAttribPointer(a_Normal, 3, gl.FLOAT, false, 0, 0)
     gl.enableVertexAttribArray(a_Normal);
 
+    const u_ModelMatrix = gl.getUniformLocation(program, 'u_ModelMatrix');
+    gl.uniformMatrix4fv(u_ModelMatrix, false, modelMatrix.data);
+
     var u_AmbientLight = gl.getUniformLocation(program, 'u_AmbientLight');
     gl.uniform3f(u_AmbientLight, 0.2, 0.2, 0.2);
+
+    var u_AmbientLight = gl.getUniformLocation(program, 'u_AmbientLight');
+    gl.uniform3f(u_AmbientLight, 2.3, 4.0, 3.5);
 
     var normalMatrix =modelMatrix.clone().invert().transpose();
 
@@ -111,11 +117,12 @@ export class Application {
 
     const u_MvpjMatrix = gl.getUniformLocation(program, 'u_MvpjMatrix');
     gl.uniformMatrix4fv(u_MvpjMatrix, false, mvpMatrix.data);
+
+
     // 深度测试
     gl.enable(gl.DEPTH_TEST);
-    gl.clear(gl.DEPTH_BUFFER_BIT);
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
   }
 
