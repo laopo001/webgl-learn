@@ -1,2 +1,2 @@
-### 第8章光照LightedCube_ambient.js
+### 第8章运动物理的光照LightedCube_ambient.js
 
