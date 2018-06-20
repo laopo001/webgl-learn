@@ -75,7 +75,7 @@ export class Application {
     projMatrix.setPerspective(45, canvas.width / canvas.height, 1, 100);
     let modelMatrix = new Mat4();
     // modelMatrix.setTranslate(0, 0, 1);
-    modelMatrix.setFromEulerAngles(45, 45, 45);
+    modelMatrix.setFromEulerAngles(0, 45, 0);
     let mvpMatrix = new Mat4().mul(projMatrix).mul(viewMatrix).mul(modelMatrix);
     let program = initShaders(gl, vert, frag);
     this.program = program;
@@ -99,8 +99,8 @@ export class Application {
     var u_AmbientLight = gl.getUniformLocation(program, 'u_AmbientLight');
     gl.uniform3f(u_AmbientLight, 0.2, 0.2, 0.2);
 
-    var u_AmbientLight = gl.getUniformLocation(program, 'u_AmbientLight');
-    gl.uniform3f(u_AmbientLight, 2.3, 4.0, 3.5);
+    var u_LightPosition = gl.getUniformLocation(program, 'u_LightPosition');
+    gl.uniform3f(u_LightPosition, 1, 2, 1.7);
 
     var normalMatrix =modelMatrix.clone().invert().transpose();
 

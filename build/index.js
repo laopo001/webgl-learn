@@ -190,7 +190,7 @@ var Application = /** @class */ (function () {
     }
     Application.prototype.main = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var gl, viewMatrix, projMatrix, modelMatrix, mvpMatrix, program, FSIZE, a_Position, a_Color, a_Normal, u_ModelMatrix, u_AmbientLight, u_AmbientLight, normalMatrix, u_NormalMatrix, u_LightColor, u_LightDirection, lightDirection, u_MvpjMatrix;
+            var gl, viewMatrix, projMatrix, modelMatrix, mvpMatrix, program, FSIZE, a_Position, a_Color, a_Normal, u_ModelMatrix, u_AmbientLight, u_LightPosition, normalMatrix, u_NormalMatrix, u_LightColor, u_LightDirection, lightDirection, u_MvpjMatrix;
             return __generator(this, function (_a) {
                 if (this.gl instanceof WebGL2RenderingContext) {
                     return [2 /*return*/];
@@ -202,7 +202,7 @@ var Application = /** @class */ (function () {
                 projMatrix.setPerspective(45, canvas.width / canvas.height, 1, 100);
                 modelMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]();
                 // modelMatrix.setTranslate(0, 0, 1);
-                modelMatrix.setFromEulerAngles(45, 45, 45);
+                modelMatrix.setFromEulerAngles(0, 45, 0);
                 mvpMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().mul(projMatrix).mul(viewMatrix).mul(modelMatrix);
                 program = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["initShaders"])(gl, _vertex_vert__WEBPACK_IMPORTED_MODULE_0___default.a, _fragment_frag__WEBPACK_IMPORTED_MODULE_1___default.a);
                 this.program = program;
@@ -223,8 +223,8 @@ var Application = /** @class */ (function () {
                 gl.uniformMatrix4fv(u_ModelMatrix, false, modelMatrix.data);
                 u_AmbientLight = gl.getUniformLocation(program, 'u_AmbientLight');
                 gl.uniform3f(u_AmbientLight, 0.2, 0.2, 0.2);
-                u_AmbientLight = gl.getUniformLocation(program, 'u_AmbientLight');
-                gl.uniform3f(u_AmbientLight, 2.3, 4.0, 3.5);
+                u_LightPosition = gl.getUniformLocation(program, 'u_LightPosition');
+                gl.uniform3f(u_LightPosition, 1, 2, 1.7);
                 normalMatrix = modelMatrix.clone().invert().transpose();
                 u_NormalMatrix = gl.getUniformLocation(program, 'u_NormalMatrix');
                 gl.uniformMatrix4fv(u_NormalMatrix, false, normalMatrix.data);
@@ -268,7 +268,7 @@ module.exports = "attribute vec4 a_Position;\r\nattribute vec4 a_Color; // Ê≥ïÂê
 /*!***************************!*\
   !*** ./src/math/index.ts ***!
   \***************************/
-/*! exports provided: Vec3, Vec4, Mat4, Quat, Vec2, Mat3 */
+/*! exports provided: Mat4, Vec3, Quat, Vec2, Vec4, Mat3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
