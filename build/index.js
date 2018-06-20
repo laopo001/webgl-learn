@@ -66,25 +66,25 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/demo15/index.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/demo16/index.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/demo15/fragment.frag":
+/***/ "./src/demo16/fragment.frag":
 /*!**********************************!*\
-  !*** ./src/demo15/fragment.frag ***!
+  !*** ./src/demo16/fragment.frag ***!
   \**********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "precision mediump float;\r\nvarying vec4 v_Color;            \r\n\r\nvoid main(void) {                          \r\n    gl_FragColor = v_Color;                \r\n}"
+module.exports = "precision mediump float;\r\nuniform vec3 u_LightPosition; // 光源位置+++\r\nuniform vec3 u_AmbientLight; // 环境光颜色\r\nuniform vec3 u_LightColor; // 光线颜色\r\nvarying vec3 v_Position;\r\nvarying vec3 v_Normal;\r\nvarying vec4 v_Color;         \r\n\r\nvoid main(void) {                 \r\n    vec3 u_LightDirection= normalize( u_LightPosition - vec3(v_Position) );\r\n    float nDotL = max( dot( u_LightDirection, v_Normal ), 0.0);\r\n    vec3 diffuse = u_LightColor * vec3(v_Color)* nDotL;\r\n    vec3 ambient = u_AmbientLight * v_Color.rgb;\r\n       \r\n    gl_FragColor = vec4(diffuse + ambient, v_Color.a);                  \r\n}"
 
 /***/ }),
 
-/***/ "./src/demo15/index.ts":
+/***/ "./src/demo16/index.ts":
 /*!*****************************!*\
-  !*** ./src/demo15/index.ts ***!
+  !*** ./src/demo16/index.ts ***!
   \*****************************/
 /*! exports provided: Application */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -92,9 +92,9 @@ module.exports = "precision mediump float;\r\nvarying vec4 v_Color;            \
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Application", function() { return Application; });
-/* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vertex.vert */ "./src/demo15/vertex.vert");
+/* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vertex.vert */ "./src/demo16/vertex.vert");
 /* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_vertex_vert__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fragment.frag */ "./src/demo15/fragment.frag");
+/* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fragment.frag */ "./src/demo16/fragment.frag");
 /* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_fragment_frag__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _math_mat4__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../math/mat4 */ "./src/math/mat4.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
@@ -253,14 +253,14 @@ new Application(canvas);
 
 /***/ }),
 
-/***/ "./src/demo15/vertex.vert":
+/***/ "./src/demo16/vertex.vert":
 /*!********************************!*\
-  !*** ./src/demo15/vertex.vert ***!
+  !*** ./src/demo16/vertex.vert ***!
   \********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "attribute vec4 a_Position;\r\nattribute vec4 a_Color; // 法向量\r\nattribute vec4 a_Normal;\r\nuniform mat4 u_MvpjMatrix;\r\nuniform mat4 u_ModelMatrix; // 模型矩阵+++\r\nuniform mat4 u_NormalMatrix; // 光线颜色\r\nuniform vec3 u_LightColor; // 光线颜色\r\n// uniform vec3 u_LightDirection; // 归一化的世界坐标\r\nuniform vec3 u_LightPosition; // 光源位置+++\r\nuniform vec3 u_AmbientLight; // 环境光颜色\r\nvarying vec4 v_Color;\r\n\r\nvoid main(){  \r\n    gl_Position = u_MvpjMatrix * a_Position;\r\n    vec3 normal = normalize(vec3(u_NormalMatrix * a_Normal));\r\n    vec4 vertexPosition= u_ModelMatrix * a_Position;\r\n    vec3 u_LightDirection= normalize( u_LightPosition - vec3(vertexPosition) );\r\n    float nDotL = max(dot(u_LightDirection,normal), 0.0);\r\n    vec3 diffuse = u_LightColor * vec3(a_Color)* nDotL;\r\n    vec3 ambient = u_AmbientLight * a_Color.rgb;\r\n    v_Color =  vec4(diffuse + ambient, a_Color.a);\r\n}"
+module.exports = "attribute vec4 a_Position;\r\nattribute vec4 a_Color; // 法向量\r\nattribute vec4 a_Normal;\r\nuniform mat4 u_MvpjMatrix;\r\nuniform mat4 u_ModelMatrix; // 模型矩阵+++\r\nuniform mat4 u_NormalMatrix; // 光线颜色\r\nvarying vec3 v_Position;\r\nvarying vec3 v_Normal;\r\nvarying vec4 v_Color;\r\n\r\nvoid main(){  \r\n    gl_Position = u_MvpjMatrix * a_Position;\r\n    v_Normal = normalize(vec3(u_NormalMatrix * a_Normal));\r\n    v_Position = vec3( u_ModelMatrix * a_Position );\r\n    v_Color = a_Color;\r\n\r\n}"
 
 /***/ }),
 
