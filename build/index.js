@@ -182,6 +182,9 @@ var indices = new Uint8Array([
     20, 21, 22, 20, 22, 23 // back
 ]);
 var n = indices.length;
+var ANGLE_STEP = 3.0; // The increments of rotation angle (degrees)
+var g_arm1Angle = -90.0; // The rotation angle of arm1 (degrees)
+var g_joint1Angle = 0.0; // The rotation angle of joint1 (degrees)
 var Application = /** @class */ (function () {
     function Application(canvas) {
         this.g_modelMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]();
@@ -193,7 +196,8 @@ var Application = /** @class */ (function () {
     }
     Application.prototype.main = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var gl, program, viewMatrix, projMatrix, viewProjMatrix;
+            var _this = this;
+            var gl, program, viewMatrix, projMatrix, viewProjMatrix, keydown;
             return __generator(this, function (_a) {
                 if (this.gl instanceof WebGL2RenderingContext) {
                     return [2 /*return*/];
@@ -209,6 +213,28 @@ var Application = /** @class */ (function () {
                 projMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setPerspective(50, canvas.width / canvas.height, 1, 1000);
                 viewProjMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().mul(projMatrix).mul(viewMatrix);
                 this.draw(viewProjMatrix);
+                keydown = function (ev) {
+                    switch (ev.keyCode) {
+                        case 38: // Up arrow key -> the positive rotation of joint1 around the z-axis
+                            if (g_joint1Angle < 135.0)
+                                g_joint1Angle += ANGLE_STEP;
+                            break;
+                        case 40: // Down arrow key -> the negative rotation of joint1 around the z-axis
+                            if (g_joint1Angle > -135.0)
+                                g_joint1Angle -= ANGLE_STEP;
+                            break;
+                        case 39: // Right arrow key -> the positive rotation of arm1 around the y-axis
+                            g_arm1Angle = (g_arm1Angle + ANGLE_STEP) % 360;
+                            break;
+                        case 37: // Left arrow key -> the negative rotation of arm1 around the y-axis
+                            g_arm1Angle = (g_arm1Angle - ANGLE_STEP) % 360;
+                            break;
+                        default: return; // Skip drawing at no effective action
+                    }
+                    // Draw the robot arm
+                    _this.draw(viewProjMatrix);
+                };
+                document.onkeydown = function (ev) { keydown(ev); };
                 return [2 /*return*/];
             });
         });
@@ -219,12 +245,12 @@ var Application = /** @class */ (function () {
         var arm1Length = 10.0;
         this.g_modelMatrix = this.g_modelMatrix
             .mul(new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setTranslate(0, -10, 0))
-            .mul(new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setFromEulerAngles(0, -90, 0));
+            .mul(new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setFromEulerAngles(0, g_arm1Angle, 0));
         this.drawBox(viewProjMatrix);
         this.g_modelMatrix = this.g_modelMatrix
             .mul(new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setTranslate(0, arm1Length, 0))
             .mul(new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setScale(1.3, 1, 1.3))
-            .mul(new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setFromEulerAngles(0, 0, 50));
+            .mul(new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setFromEulerAngles(0, 0, g_joint1Angle));
         this.drawBox(viewProjMatrix);
     };
     Application.prototype.drawBox = function (viewProjMatrix) {

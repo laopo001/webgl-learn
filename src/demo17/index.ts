@@ -55,6 +55,9 @@ var indices = new Uint8Array([
 ]);
 let n = indices.length;
 
+var ANGLE_STEP = 3.0;    // The increments of rotation angle (degrees)
+var g_arm1Angle = -90.0; // The rotation angle of arm1 (degrees)
+var g_joint1Angle = 0.0; // The rotation angle of joint1 (degrees)
 
 export class Application {
   private gl: WebGLRenderingContext | WebGL2RenderingContext;
@@ -78,6 +81,28 @@ export class Application {
 
     const viewProjMatrix = new Mat4().mul(projMatrix).mul(viewMatrix);
     this.draw(viewProjMatrix);
+
+    let keydown = (ev) => {
+
+      switch (ev.keyCode) {
+        case 38: // Up arrow key -> the positive rotation of joint1 around the z-axis
+          if (g_joint1Angle < 135.0) g_joint1Angle += ANGLE_STEP;
+          break;
+        case 40: // Down arrow key -> the negative rotation of joint1 around the z-axis
+          if (g_joint1Angle > -135.0) g_joint1Angle -= ANGLE_STEP;
+          break;
+        case 39: // Right arrow key -> the positive rotation of arm1 around the y-axis
+          g_arm1Angle = (g_arm1Angle + ANGLE_STEP) % 360;
+          break;
+        case 37: // Left arrow key -> the negative rotation of arm1 around the y-axis
+          g_arm1Angle = (g_arm1Angle - ANGLE_STEP) % 360;
+          break;
+        default: return; // Skip drawing at no effective action
+      }
+      // Draw the robot arm
+      this.draw(viewProjMatrix);
+    }
+    document.onkeydown = function (ev) { keydown(ev); };
   }
   g_modelMatrix = new Mat4();
   g_MvpMatrix = new Mat4();
@@ -90,13 +115,13 @@ export class Application {
 
     this.g_modelMatrix = this.g_modelMatrix
       .mul(new Mat4().setTranslate(0, -10, 0))
-      .mul(new Mat4().setFromEulerAngles(0, -90, 0))
+      .mul(new Mat4().setFromEulerAngles(0, g_arm1Angle, 0))
     this.drawBox(viewProjMatrix)
 
     this.g_modelMatrix = this.g_modelMatrix
       .mul(new Mat4().setTranslate(0, arm1Length, 0))
       .mul(new Mat4().setScale(1.3, 1, 1.3))
-      .mul(new Mat4().setFromEulerAngles(0, 0, 50))
+      .mul(new Mat4().setFromEulerAngles(0, 0, g_joint1Angle))
 
 
     this.drawBox(viewProjMatrix)
