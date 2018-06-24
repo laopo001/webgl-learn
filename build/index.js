@@ -224,13 +224,14 @@ var Application = /** @class */ (function () {
                                 g_joint1Angle -= ANGLE_STEP;
                             break;
                         case 39: // Right arrow key -> the positive rotation of arm1 around the y-axis
-                            g_arm1Angle = (g_arm1Angle + ANGLE_STEP) % 360;
+                            g_arm1Angle = (g_arm1Angle + ANGLE_STEP);
                             break;
                         case 37: // Left arrow key -> the negative rotation of arm1 around the y-axis
-                            g_arm1Angle = (g_arm1Angle - ANGLE_STEP) % 360;
+                            g_arm1Angle = (g_arm1Angle - ANGLE_STEP);
                             break;
                         default: return; // Skip drawing at no effective action
                     }
+                    console.log(g_arm1Angle, g_joint1Angle);
                     // Draw the robot arm
                     _this.draw(viewProjMatrix);
                 };
