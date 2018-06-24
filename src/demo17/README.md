@@ -1,2 +1,2 @@
-### 第8章 更逼真：逐片元光照 PointLightedCube_perFragment.js
+### 第9章 单关节模型 JointMode.js
 

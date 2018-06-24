@@ -66,14 +66,14 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/demo16/index.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/demo17/index.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/demo16/fragment.frag":
+/***/ "./src/demo17/fragment.frag":
 /*!**********************************!*\
-  !*** ./src/demo16/fragment.frag ***!
+  !*** ./src/demo17/fragment.frag ***!
   \**********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -82,9 +82,9 @@ module.exports = "precision mediump float;\r\nuniform vec3 u_LightPosition; // Â
 
 /***/ }),
 
-/***/ "./src/demo16/index.ts":
+/***/ "./src/demo17/index.ts":
 /*!*****************************!*\
-  !*** ./src/demo16/index.ts ***!
+  !*** ./src/demo17/index.ts ***!
   \*****************************/
 /*! exports provided: Application */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -92,9 +92,9 @@ module.exports = "precision mediump float;\r\nuniform vec3 u_LightPosition; // Â
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Application", function() { return Application; });
-/* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vertex.vert */ "./src/demo16/vertex.vert");
+/* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vertex.vert */ "./src/demo17/vertex.vert");
 /* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_vertex_vert__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fragment.frag */ "./src/demo16/fragment.frag");
+/* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fragment.frag */ "./src/demo17/fragment.frag");
 /* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_fragment_frag__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _math_mat4__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../math/mat4 */ "./src/math/mat4.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
@@ -149,12 +149,12 @@ var canvas = document.getElementById('root');
 //  |/      |/
 //  v2------v3
 var vertices = new Float32Array([
-    1.0, 1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, 1.0, 1.0, -1.0, 1.0,
-    1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, 1.0, 1.0, -1.0,
-    1.0, 1.0, 1.0, 1.0, 1.0, -1.0, -1.0, 1.0, -1.0, -1.0, 1.0, 1.0,
-    -1.0, 1.0, 1.0, -1.0, 1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, 1.0,
-    -1.0, -1.0, -1.0, 1.0, -1.0, -1.0, 1.0, -1.0, 1.0, -1.0, -1.0, 1.0,
-    1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0 // v4-v7-v6-v5 back
+    1.5, 10.0, 1.5, -1.5, 10.0, 1.5, -1.5, 0.0, 1.5, 1.5, 0.0, 1.5,
+    1.5, 10.0, 1.5, 1.5, 0.0, 1.5, 1.5, 0.0, -1.5, 1.5, 10.0, -1.5,
+    1.5, 10.0, 1.5, 1.5, 10.0, -1.5, -1.5, 10.0, -1.5, -1.5, 10.0, 1.5,
+    -1.5, 10.0, 1.5, -1.5, 10.0, -1.5, -1.5, 0.0, -1.5, -1.5, 0.0, 1.5,
+    -1.5, 0.0, -1.5, 1.5, 0.0, -1.5, 1.5, 0.0, 1.5, -1.5, 0.0, 1.5,
+    1.5, 0.0, -1.5, -1.5, 0.0, -1.5, -1.5, 10.0, -1.5, 1.5, 10.0, -1.5 // v4-v7-v6-v5 back
 ]);
 var colors = new Float32Array([
     1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,
@@ -184,66 +184,85 @@ var indices = new Uint8Array([
 var n = indices.length;
 var Application = /** @class */ (function () {
     function Application(canvas) {
+        this.g_modelMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]();
+        this.g_MvpMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]();
+        this.g_normalMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]();
         var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
         this.gl = gl;
         this.main();
     }
     Application.prototype.main = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var gl, viewMatrix, projMatrix, modelMatrix, mvpMatrix, program, FSIZE, a_Position, a_Color, a_Normal, u_ModelMatrix, u_AmbientLight, u_LightPosition, normalMatrix, u_NormalMatrix, u_LightColor, u_LightDirection, lightDirection, u_MvpjMatrix;
+            var gl, program, viewMatrix, projMatrix, viewProjMatrix;
             return __generator(this, function (_a) {
                 if (this.gl instanceof WebGL2RenderingContext) {
                     return [2 /*return*/];
                 }
                 gl = this.gl;
+                gl.clearColor(0.0, 0.0, 0.0, 1.0);
+                gl.enable(gl.DEPTH_TEST);
                 Object(_utils__WEBPACK_IMPORTED_MODULE_3__["createIbo"])(gl, indices);
-                viewMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setLookAt(new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](3, 3, 7), new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 0, 0), new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 1, 0)).invert();
-                projMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]();
-                projMatrix.setPerspective(45, canvas.width / canvas.height, 1, 100);
-                modelMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]();
-                // modelMatrix.setTranslate(0, 0, 1);
-                modelMatrix.setFromEulerAngles(0, 45, 0);
-                mvpMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().mul(projMatrix).mul(viewMatrix).mul(modelMatrix);
+                Object(_utils__WEBPACK_IMPORTED_MODULE_3__["createVbo"])(gl, vertices);
                 program = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["initShaders"])(gl, _vertex_vert__WEBPACK_IMPORTED_MODULE_0___default.a, _fragment_frag__WEBPACK_IMPORTED_MODULE_1___default.a);
                 this.program = program;
-                FSIZE = Float32Array.BYTES_PER_ELEMENT;
-                Object(_utils__WEBPACK_IMPORTED_MODULE_3__["createVbo"])(gl, vertices);
-                a_Position = gl.getAttribLocation(program, 'a_Position');
-                gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 0, 0);
-                gl.enableVertexAttribArray(a_Position);
-                Object(_utils__WEBPACK_IMPORTED_MODULE_3__["createVbo"])(gl, colors);
-                a_Color = gl.getAttribLocation(program, 'a_Color');
-                gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, 0, 0);
-                gl.enableVertexAttribArray(a_Color);
-                Object(_utils__WEBPACK_IMPORTED_MODULE_3__["createVbo"])(gl, normals);
-                a_Normal = gl.getAttribLocation(program, 'a_Normal');
-                gl.vertexAttribPointer(a_Normal, 3, gl.FLOAT, false, 0, 0);
-                gl.enableVertexAttribArray(a_Normal);
-                u_ModelMatrix = gl.getUniformLocation(program, 'u_ModelMatrix');
-                gl.uniformMatrix4fv(u_ModelMatrix, false, modelMatrix.data);
-                u_AmbientLight = gl.getUniformLocation(program, 'u_AmbientLight');
-                gl.uniform3f(u_AmbientLight, 0.2, 0.2, 0.2);
-                u_LightPosition = gl.getUniformLocation(program, 'u_LightPosition');
-                gl.uniform3f(u_LightPosition, 1, 2, 1.7);
-                normalMatrix = modelMatrix.clone().invert().transpose();
-                u_NormalMatrix = gl.getUniformLocation(program, 'u_NormalMatrix');
-                gl.uniformMatrix4fv(u_NormalMatrix, false, normalMatrix.data);
-                u_LightColor = gl.getUniformLocation(program, 'u_LightColor');
-                gl.uniform3f(u_LightColor, 1.0, 1.0, 1.0);
-                u_LightDirection = gl.getUniformLocation(program, 'u_LightDirection');
-                lightDirection = new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"]([0.5, 3.0, 4.0]);
-                lightDirection.normalize(); // Normalize
-                gl.uniform3fv(u_LightDirection, lightDirection.data);
-                u_MvpjMatrix = gl.getUniformLocation(program, 'u_MvpjMatrix');
-                gl.uniformMatrix4fv(u_MvpjMatrix, false, mvpMatrix.data);
-                // Ê∑±Â∫¶ÊµãËØï
-                gl.enable(gl.DEPTH_TEST);
-                gl.clearColor(0.0, 0.0, 0.0, 1.0);
-                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-                gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
+                viewMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setLookAt(new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](20, 10, 30), new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 0, 0), new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 1, 0)).invert();
+                projMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setPerspective(50, canvas.width / canvas.height, 1, 1000);
+                viewProjMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().mul(projMatrix).mul(viewMatrix);
+                this.draw(viewProjMatrix);
                 return [2 /*return*/];
             });
         });
+    };
+    Application.prototype.draw = function (viewProjMatrix) {
+        var gl = this.gl;
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+        var arm1Length = 10.0;
+        this.g_modelMatrix = this.g_modelMatrix
+            .mul(new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setTranslate(0, -10, 0))
+            .mul(new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setFromEulerAngles(0, -90, 0));
+        this.drawBox(viewProjMatrix);
+        this.g_modelMatrix = this.g_modelMatrix
+            .mul(new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setTranslate(0, arm1Length, 0))
+            .mul(new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setScale(1.3, 1, 1.3))
+            .mul(new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setFromEulerAngles(0, 0, 50));
+        this.drawBox(viewProjMatrix);
+    };
+    Application.prototype.drawBox = function (viewProjMatrix) {
+        if (this.gl instanceof WebGL2RenderingContext) {
+            return;
+        }
+        var _a = this, gl = _a.gl, program = _a.program;
+        this.g_MvpMatrix = this.g_MvpMatrix.copy(viewProjMatrix);
+        this.g_MvpMatrix = this.g_MvpMatrix.mul(this.g_modelMatrix);
+        var FSIZE = Float32Array.BYTES_PER_ELEMENT;
+        var a_Position = gl.getAttribLocation(program, 'a_Position');
+        gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(a_Position);
+        var a_Color = gl.getAttribLocation(program, 'a_Color');
+        gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(a_Color);
+        var a_Normal = gl.getAttribLocation(program, 'a_Normal');
+        gl.vertexAttribPointer(a_Normal, 3, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(a_Normal);
+        var u_ModelMatrix = gl.getUniformLocation(program, 'u_ModelMatrix');
+        gl.uniformMatrix4fv(u_ModelMatrix, false, this.g_modelMatrix.data);
+        var u_AmbientLight = gl.getUniformLocation(program, 'u_AmbientLight');
+        gl.uniform3f(u_AmbientLight, 0.2, 0.2, 0.2);
+        var u_LightPosition = gl.getUniformLocation(program, 'u_LightPosition');
+        gl.uniform3f(u_LightPosition, 10, 20, 17);
+        var u_LightColor = gl.getUniformLocation(program, 'u_LightColor');
+        gl.uniform3f(u_LightColor, 1.0, 1.0, 1.0);
+        // Set the light direction (in the world coordinate)
+        var u_LightDirection = gl.getUniformLocation(program, 'u_LightDirection');
+        var lightDirection = new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"]([0.5, 3.0, 4.0]);
+        lightDirection.normalize(); // Normalize
+        gl.uniform3fv(u_LightDirection, lightDirection.data);
+        var u_MvpjMatrix = gl.getUniformLocation(program, 'u_MvpjMatrix');
+        gl.uniformMatrix4fv(u_MvpjMatrix, false, this.g_MvpMatrix.data);
+        this.g_normalMatrix = this.g_modelMatrix.clone().invert().transpose();
+        var u_NormalMatrix = gl.getUniformLocation(program, 'u_NormalMatrix');
+        gl.uniformMatrix4fv(u_NormalMatrix, false, this.g_normalMatrix.data);
+        gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
     };
     return Application;
 }());
@@ -253,9 +272,9 @@ new Application(canvas);
 
 /***/ }),
 
-/***/ "./src/demo16/vertex.vert":
+/***/ "./src/demo17/vertex.vert":
 /*!********************************!*\
-  !*** ./src/demo16/vertex.vert ***!
+  !*** ./src/demo17/vertex.vert ***!
   \********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -268,7 +287,7 @@ module.exports = "attribute vec4 a_Position;\r\nattribute vec4 a_Color; // Ê≥ïÂê
 /*!***************************!*\
   !*** ./src/math/index.ts ***!
   \***************************/
-/*! exports provided: Mat4, Vec3, Quat, Vec2, Vec4, Mat3 */
+/*! exports provided: Vec3, Vec4, Mat4, Quat, Vec2, Mat3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

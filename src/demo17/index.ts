@@ -16,12 +16,12 @@ let canvas = document.getElementById('root') as HTMLCanvasElement;
 //  |/      |/
 //  v2------v3
 var vertices = new Float32Array([   // Coordinates
-  1.0, 1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, 1.0, 1.0, -1.0, 1.0, // v0-v1-v2-v3 front
-  1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, 1.0, 1.0, -1.0, // v0-v3-v4-v5 right
-  1.0, 1.0, 1.0, 1.0, 1.0, -1.0, -1.0, 1.0, -1.0, -1.0, 1.0, 1.0, // v0-v5-v6-v1 up
-  -1.0, 1.0, 1.0, -1.0, 1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, 1.0, // v1-v6-v7-v2 left
-  -1.0, -1.0, -1.0, 1.0, -1.0, -1.0, 1.0, -1.0, 1.0, -1.0, -1.0, 1.0, // v7-v4-v3-v2 down
-  1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0  // v4-v7-v6-v5 back
+  1.5, 10.0, 1.5, -1.5, 10.0, 1.5, -1.5, 0.0, 1.5, 1.5, 0.0, 1.5, // v0-v1-v2-v3 front
+  1.5, 10.0, 1.5, 1.5, 0.0, 1.5, 1.5, 0.0, -1.5, 1.5, 10.0, -1.5, // v0-v3-v4-v5 right
+  1.5, 10.0, 1.5, 1.5, 10.0, -1.5, -1.5, 10.0, -1.5, -1.5, 10.0, 1.5, // v0-v5-v6-v1 up
+  -1.5, 10.0, 1.5, -1.5, 10.0, -1.5, -1.5, 0.0, -1.5, -1.5, 0.0, 1.5, // v1-v6-v7-v2 left
+  -1.5, 0.0, -1.5, 1.5, 0.0, -1.5, 1.5, 0.0, 1.5, -1.5, 0.0, 1.5, // v7-v4-v3-v2 down
+  1.5, 0.0, -1.5, -1.5, 0.0, -1.5, -1.5, 10.0, -1.5, 1.5, 10.0, -1.5  // v4-v7-v6-v5 back
 ]);
 
 
@@ -35,15 +35,14 @@ var colors = new Float32Array([    // Colors
 ]);
 
 
-var normals = new Float32Array([    // Normal
-  0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0,  // v0-v1-v2-v3 front
-  1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0,  // v0-v3-v4-v5 right
-  0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0,  // v0-v5-v6-v1 up
-  -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0,  // v1-v6-v7-v2 left
-  0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0,  // v7-v4-v3-v2 down
-  0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0   // v4-v7-v6-v5 back
+var normals = new Float32Array([
+  0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, // v0-v1-v2-v3 front
+  1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, // v0-v3-v4-v5 right
+  0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, // v0-v5-v6-v1 up
+  -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, // v1-v6-v7-v2 left
+  0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, // v7-v4-v3-v2 down
+  0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0  // v4-v7-v6-v5 back
 ]);
-
 
 // Indices of the vertices
 var indices = new Uint8Array([
@@ -68,44 +67,66 @@ export class Application {
   async main() {
     if (this.gl instanceof WebGL2RenderingContext) { return; }
     const { gl } = this;
-
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    gl.enable(gl.DEPTH_TEST);
     createIbo(gl, indices);
-    let viewMatrix = new Mat4().setLookAt(new Vec3(3, 3, 7), new Vec3(0, 0, 0), new Vec3(0, 1, 0)).invert();
-    let projMatrix = new Mat4();
-    projMatrix.setPerspective(45, canvas.width / canvas.height, 1, 100);
-    let modelMatrix = new Mat4();
-    // modelMatrix.setTranslate(0, 0, 1);
-    modelMatrix.setFromEulerAngles(0, 45, 0);
-    let mvpMatrix = new Mat4().mul(projMatrix).mul(viewMatrix).mul(modelMatrix);
+    createVbo(gl, vertices);
     let program = initShaders(gl, vert, frag);
     this.program = program;
+    let viewMatrix = new Mat4().setLookAt(new Vec3(20, 10, 30), new Vec3(0, 0, 0), new Vec3(0, 1, 0)).invert();
+    let projMatrix = new Mat4().setPerspective(50, canvas.width / canvas.height, 1, 1000);
+
+    const viewProjMatrix = new Mat4().mul(projMatrix).mul(viewMatrix);
+    this.draw(viewProjMatrix);
+  }
+  g_modelMatrix = new Mat4();
+  g_MvpMatrix = new Mat4();
+  g_normalMatrix = new Mat4();
+  draw(viewProjMatrix) {
+    const { gl } = this;
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+    var arm1Length = 10.0;
+
+    this.g_modelMatrix = this.g_modelMatrix
+      .mul(new Mat4().setTranslate(0, -10, 0))
+      .mul(new Mat4().setFromEulerAngles(0, -90, 0))
+    this.drawBox(viewProjMatrix)
+
+    this.g_modelMatrix = this.g_modelMatrix
+      .mul(new Mat4().setTranslate(0, arm1Length, 0))
+      .mul(new Mat4().setScale(1.3, 1, 1.3))
+      .mul(new Mat4().setFromEulerAngles(0, 0, 50))
+
+
+    this.drawBox(viewProjMatrix)
+  }
+  drawBox(viewProjMatrix) {
+    if (this.gl instanceof WebGL2RenderingContext) { return; }
+    const { gl, program, } = this;
+    this.g_MvpMatrix = this.g_MvpMatrix.copy(viewProjMatrix)
+    this.g_MvpMatrix = this.g_MvpMatrix.mul(this.g_modelMatrix);
     let FSIZE = Float32Array.BYTES_PER_ELEMENT;
-    createVbo(gl, vertices);
+
     const a_Position = gl.getAttribLocation(program, 'a_Position');
     gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(a_Position);
-    createVbo(gl, colors);
     const a_Color = gl.getAttribLocation(program, 'a_Color');
     gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, 0, 0)
     gl.enableVertexAttribArray(a_Color);
-    createVbo(gl, normals);
+
     const a_Normal = gl.getAttribLocation(program, 'a_Normal');
     gl.vertexAttribPointer(a_Normal, 3, gl.FLOAT, false, 0, 0)
     gl.enableVertexAttribArray(a_Normal);
 
     const u_ModelMatrix = gl.getUniformLocation(program, 'u_ModelMatrix');
-    gl.uniformMatrix4fv(u_ModelMatrix, false, modelMatrix.data);
+    gl.uniformMatrix4fv(u_ModelMatrix, false, this.g_modelMatrix.data);
 
     var u_AmbientLight = gl.getUniformLocation(program, 'u_AmbientLight');
     gl.uniform3f(u_AmbientLight, 0.2, 0.2, 0.2);
 
     var u_LightPosition = gl.getUniformLocation(program, 'u_LightPosition');
-    gl.uniform3f(u_LightPosition, 1, 2, 1.7);
-
-    var normalMatrix =modelMatrix.clone().invert().transpose();
-
-    const u_NormalMatrix = gl.getUniformLocation(program, 'u_NormalMatrix');
-    gl.uniformMatrix4fv(u_NormalMatrix, false, normalMatrix.data);
+    gl.uniform3f(u_LightPosition, 10, 20, 17);
 
     var u_LightColor = gl.getUniformLocation(program, 'u_LightColor');
     gl.uniform3f(u_LightColor, 1.0, 1.0, 1.0);
@@ -116,17 +137,14 @@ export class Application {
     gl.uniform3fv(u_LightDirection, lightDirection.data);
 
     const u_MvpjMatrix = gl.getUniformLocation(program, 'u_MvpjMatrix');
-    gl.uniformMatrix4fv(u_MvpjMatrix, false, mvpMatrix.data);
+    gl.uniformMatrix4fv(u_MvpjMatrix, false, this.g_MvpMatrix.data);
 
+    this.g_normalMatrix = this.g_modelMatrix.clone().invert().transpose();
+    const u_NormalMatrix = gl.getUniformLocation(program, 'u_NormalMatrix');
+    gl.uniformMatrix4fv(u_NormalMatrix, false, this.g_normalMatrix.data);
 
-    // 深度测试
-    gl.enable(gl.DEPTH_TEST);
-    gl.clearColor(0.0, 0.0, 0.0, 1.0);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
   }
-
-
 }
 
 new Application(canvas);
