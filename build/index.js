@@ -253,6 +253,7 @@ var Application = /** @class */ (function () {
             .mul(new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setScale(1.3, 1, 1.3))
             .mul(new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setFromEulerAngles(0, 0, g_joint1Angle));
         this.drawBox(viewProjMatrix);
+        this.g_modelMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]();
     };
     Application.prototype.drawBox = function (viewProjMatrix) {
         if (this.gl instanceof WebGL2RenderingContext) {
@@ -276,7 +277,7 @@ var Application = /** @class */ (function () {
         var u_AmbientLight = gl.getUniformLocation(program, 'u_AmbientLight');
         gl.uniform3f(u_AmbientLight, 0.2, 0.2, 0.2);
         var u_LightPosition = gl.getUniformLocation(program, 'u_LightPosition');
-        gl.uniform3f(u_LightPosition, 10, 20, 17);
+        gl.uniform3f(u_LightPosition, 20, 20, 17);
         var u_LightColor = gl.getUniformLocation(program, 'u_LightColor');
         gl.uniform3f(u_LightColor, 1.0, 1.0, 1.0);
         // Set the light direction (in the world coordinate)
@@ -314,7 +315,7 @@ module.exports = "attribute vec4 a_Position;\r\nattribute vec4 a_Color; // Ê≥ïÂê
 /*!***************************!*\
   !*** ./src/math/index.ts ***!
   \***************************/
-/*! exports provided: Vec3, Vec4, Mat4, Quat, Vec2, Mat3 */
+/*! exports provided: Mat4, Vec3, Quat, Vec2, Vec4, Mat3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

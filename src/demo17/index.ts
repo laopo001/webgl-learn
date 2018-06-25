@@ -123,9 +123,9 @@ export class Application {
       .mul(new Mat4().setTranslate(0, arm1Length, 0))
       .mul(new Mat4().setScale(1.3, 1, 1.3))
       .mul(new Mat4().setFromEulerAngles(0, 0, g_joint1Angle))
-
-
     this.drawBox(viewProjMatrix)
+
+    this.g_modelMatrix = new Mat4();
   }
   drawBox(viewProjMatrix) {
     if (this.gl instanceof WebGL2RenderingContext) { return; }
@@ -152,7 +152,7 @@ export class Application {
     gl.uniform3f(u_AmbientLight, 0.2, 0.2, 0.2);
 
     var u_LightPosition = gl.getUniformLocation(program, 'u_LightPosition');
-    gl.uniform3f(u_LightPosition, 10, 20, 17);
+    gl.uniform3f(u_LightPosition, 20, 20, 17);
 
     var u_LightColor = gl.getUniformLocation(program, 'u_LightColor');
     gl.uniform3f(u_LightColor, 1.0, 1.0, 1.0);
