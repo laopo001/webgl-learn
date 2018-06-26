@@ -66,25 +66,25 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/demo17/index.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/demo18/index.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/demo17/fragment.frag":
+/***/ "./src/demo18/fragment.frag":
 /*!**********************************!*\
-  !*** ./src/demo17/fragment.frag ***!
+  !*** ./src/demo18/fragment.frag ***!
   \**********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "precision mediump float;\r\nuniform vec3 u_LightPosition; // 光源位置+++\r\nuniform vec3 u_AmbientLight; // 环境光颜色\r\nuniform vec3 u_LightColor; // 光线颜色\r\nvarying vec3 v_Position;\r\nvarying vec3 v_Normal;\r\nvarying vec4 v_Color;         \r\n\r\nvoid main(void) {                 \r\n    vec3 u_LightDirection= normalize( u_LightPosition - vec3(v_Position) );\r\n    float nDotL = max( dot( u_LightDirection, v_Normal ), 0.0);\r\n    vec3 diffuse = u_LightColor * vec3(v_Color)* nDotL;\r\n    vec3 ambient = u_AmbientLight * v_Color.rgb;\r\n       \r\n    gl_FragColor = vec4(diffuse + ambient, v_Color.a);                  \r\n}"
+module.exports = "precision mediump float;\r\nvarying vec4 v_Color;            \r\n\r\nvoid main(void) {                          \r\n    gl_FragColor = v_Color;                \r\n}"
 
 /***/ }),
 
-/***/ "./src/demo17/index.ts":
+/***/ "./src/demo18/index.ts":
 /*!*****************************!*\
-  !*** ./src/demo17/index.ts ***!
+  !*** ./src/demo18/index.ts ***!
   \*****************************/
 /*! exports provided: Application */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -92,9 +92,9 @@ module.exports = "precision mediump float;\r\nuniform vec3 u_LightPosition; // �
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Application", function() { return Application; });
-/* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vertex.vert */ "./src/demo17/vertex.vert");
+/* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vertex.vert */ "./src/demo18/vertex.vert");
 /* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_vertex_vert__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fragment.frag */ "./src/demo17/fragment.frag");
+/* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fragment.frag */ "./src/demo18/fragment.frag");
 /* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_fragment_frag__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _math_mat4__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../math/mat4 */ "./src/math/mat4.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
@@ -149,28 +149,29 @@ var canvas = document.getElementById('root');
 //  |/      |/
 //  v2------v3
 var vertices = new Float32Array([
-    1.5, 10.0, 1.5, -1.5, 10.0, 1.5, -1.5, 0.0, 1.5, 1.5, 0.0, 1.5,
-    1.5, 10.0, 1.5, 1.5, 0.0, 1.5, 1.5, 0.0, -1.5, 1.5, 10.0, -1.5,
-    1.5, 10.0, 1.5, 1.5, 10.0, -1.5, -1.5, 10.0, -1.5, -1.5, 10.0, 1.5,
-    -1.5, 10.0, 1.5, -1.5, 10.0, -1.5, -1.5, 0.0, -1.5, -1.5, 0.0, 1.5,
-    -1.5, 0.0, -1.5, 1.5, 0.0, -1.5, 1.5, 0.0, 1.5, -1.5, 0.0, 1.5,
-    1.5, 0.0, -1.5, -1.5, 0.0, -1.5, -1.5, 10.0, -1.5, 1.5, 10.0, -1.5 // v4-v7-v6-v5 back
+    1.0, 1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, 1.0, 1.0, -1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, 1.0, 1.0, -1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, -1.0, -1.0, 1.0, -1.0, -1.0, 1.0, 1.0,
+    -1.0, 1.0, 1.0, -1.0, 1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, 1.0,
+    -1.0, -1.0, -1.0, 1.0, -1.0, -1.0, 1.0, -1.0, 1.0, -1.0, -1.0, 1.0,
+    1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0 // v4-v7-v6-v5 back
 ]);
 var colors = new Float32Array([
-    1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,
-    1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,
-    1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,
-    1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,
-    1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,
-    1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0 // v4-v7-v6-v5 back
+    0.2, 0.58, 0.82, 0.2, 0.58, 0.82, 0.2, 0.58, 0.82, 0.2, 0.58, 0.82,
+    0.5, 0.41, 0.69, 0.5, 0.41, 0.69, 0.5, 0.41, 0.69, 0.5, 0.41, 0.69,
+    0.0, 0.32, 0.61, 0.0, 0.32, 0.61, 0.0, 0.32, 0.61, 0.0, 0.32, 0.61,
+    0.78, 0.69, 0.84, 0.78, 0.69, 0.84, 0.78, 0.69, 0.84, 0.78, 0.69, 0.84,
+    0.32, 0.18, 0.56, 0.32, 0.18, 0.56, 0.32, 0.18, 0.56, 0.32, 0.18, 0.56,
+    0.73, 0.82, 0.93, 0.73, 0.82, 0.93, 0.73, 0.82, 0.93, 0.73, 0.82, 0.93,
 ]);
-var normals = new Float32Array([
-    0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0,
-    1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0,
-    0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0,
-    -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0,
-    0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0,
-    0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0 // v4-v7-v6-v5 back
+// Indices of the vertices
+var indices = new Uint8Array([
+    0, 1, 2, 0, 2, 3,
+    4, 5, 6, 4, 6, 7,
+    8, 9, 10, 8, 10, 11,
+    12, 13, 14, 12, 14, 15,
+    16, 17, 18, 16, 18, 19,
+    20, 21, 22, 20, 22, 23 // back
 ]);
 // Indices of the vertices
 var indices = new Uint8Array([
@@ -187,9 +188,6 @@ var g_arm1Angle = -90.0; // The rotation angle of arm1 (degrees)
 var g_joint1Angle = 0.0; // The rotation angle of joint1 (degrees)
 var Application = /** @class */ (function () {
     function Application(canvas) {
-        this.g_modelMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]();
-        this.g_MvpMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]();
-        this.g_normalMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]();
         var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
         this.gl = gl;
         this.main();
@@ -197,7 +195,7 @@ var Application = /** @class */ (function () {
     Application.prototype.main = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var gl, program, viewMatrix, projMatrix, viewProjMatrix, keydown;
+            var gl, program, viewMatrix, projMatrix, modelMatrix, viewProjMatrix;
             return __generator(this, function (_a) {
                 if (this.gl instanceof WebGL2RenderingContext) {
                     return [2 /*return*/];
@@ -207,59 +205,50 @@ var Application = /** @class */ (function () {
                 gl.enable(gl.DEPTH_TEST);
                 program = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["initShaders"])(gl, _vertex_vert__WEBPACK_IMPORTED_MODULE_0___default.a, _fragment_frag__WEBPACK_IMPORTED_MODULE_1___default.a);
                 this.program = program;
-                viewMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setLookAt(new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](20, 10, 30), new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 0, 0), new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 1, 0)).invert();
+                viewMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setLookAt(new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](5, 5, 5), new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 0, 0), new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 1, 0)).invert();
                 projMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setPerspective(50, canvas.width / canvas.height, 1, 1000);
-                viewProjMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().mul(projMatrix).mul(viewMatrix);
-                this.draw(viewProjMatrix);
-                keydown = function (ev) {
-                    switch (ev.keyCode) {
-                        case 38: // Up arrow key -> the positive rotation of joint1 around the z-axis
-                            if (g_joint1Angle < 135.0)
-                                g_joint1Angle += ANGLE_STEP;
-                            break;
-                        case 40: // Down arrow key -> the negative rotation of joint1 around the z-axis
-                            if (g_joint1Angle > -135.0)
-                                g_joint1Angle -= ANGLE_STEP;
-                            break;
-                        case 39: // Right arrow key -> the positive rotation of arm1 around the y-axis
-                            g_arm1Angle = (g_arm1Angle + ANGLE_STEP) % 360;
-                            break;
-                        case 37: // Left arrow key -> the negative rotation of arm1 around the y-axis
-                            g_arm1Angle = (g_arm1Angle - ANGLE_STEP) % 360;
-                            break;
-                        default: return; // Skip drawing at no effective action
+                modelMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]();
+                viewProjMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().mul(projMatrix).mul(viewMatrix).mul(modelMatrix);
+                this.MvpMatrix = viewProjMatrix;
+                this.draw();
+                canvas.onmousedown = function (ev) {
+                    var x = ev.clientX, y = ev.clientY;
+                    var rect = ev.target.getBoundingClientRect();
+                    if (rect.left <= x && x < rect.right && rect.top <= y && y < rect.bottom) {
+                        // If pressed position is inside <canvas>, check if it is above object
+                        var x_in_canvas = x - rect.left, y_in_canvas = rect.bottom - y;
+                        var picked = _this.check(x_in_canvas, y_in_canvas);
+                        if (picked)
+                            alert('The cube was selected! ');
                     }
-                    console.log(g_arm1Angle, g_joint1Angle);
-                    // Draw the robot arm
-                    _this.draw(viewProjMatrix);
                 };
-                document.onkeydown = function (ev) { keydown(ev); };
                 return [2 /*return*/];
             });
         });
     };
-    Application.prototype.draw = function (viewProjMatrix) {
-        var gl = this.gl;
-        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-        var arm1Length = 10.0;
-        this.g_modelMatrix = this.g_modelMatrix
-            .mul(new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setTranslate(0, -10, 0))
-            .mul(new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setFromEulerAngles(0, g_arm1Angle, 0));
-        this.drawBox(viewProjMatrix);
-        this.g_modelMatrix = this.g_modelMatrix
-            .mul(new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setTranslate(0, arm1Length, 0))
-            .mul(new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setScale(1.3, 1, 1.3))
-            .mul(new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setFromEulerAngles(0, 0, g_joint1Angle));
-        this.drawBox(viewProjMatrix);
-        this.g_modelMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]();
-    };
-    Application.prototype.drawBox = function (viewProjMatrix) {
+    Application.prototype.check = function (x, y) {
         if (this.gl instanceof WebGL2RenderingContext) {
             return;
         }
         var _a = this, gl = _a.gl, program = _a.program;
-        this.g_MvpMatrix = this.g_MvpMatrix.copy(viewProjMatrix);
-        this.g_MvpMatrix = this.g_MvpMatrix.mul(this.g_modelMatrix);
+        var picked = false;
+        var u_Clicked = gl.getUniformLocation(program, 'u_Clicked');
+        gl.uniform1i(u_Clicked, 1);
+        this.draw();
+        var pixels = new Uint8Array(4);
+        gl.readPixels(x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+        if (pixels[0] == 255) // The mouse in on cube if R(pixels[0]) is 255
+            picked = true;
+        gl.uniform1i(u_Clicked, 0);
+        this.draw();
+        return picked;
+    };
+    Application.prototype.draw = function () {
+        if (this.gl instanceof WebGL2RenderingContext) {
+            return;
+        }
+        var _a = this, gl = _a.gl, program = _a.program;
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         var FSIZE = Float32Array.BYTES_PER_ELEMENT;
         Object(_utils__WEBPACK_IMPORTED_MODULE_3__["createVbo"])(gl, vertices);
         var a_Position = gl.getAttribLocation(program, 'a_Position');
@@ -270,27 +259,8 @@ var Application = /** @class */ (function () {
         gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, 0, 0);
         gl.enableVertexAttribArray(a_Color);
         Object(_utils__WEBPACK_IMPORTED_MODULE_3__["createIbo"])(gl, indices);
-        var a_Normal = gl.getAttribLocation(program, 'a_Normal');
-        gl.vertexAttribPointer(a_Normal, 3, gl.FLOAT, false, 0, 0);
-        gl.enableVertexAttribArray(a_Normal);
-        var u_ModelMatrix = gl.getUniformLocation(program, 'u_ModelMatrix');
-        gl.uniformMatrix4fv(u_ModelMatrix, false, this.g_modelMatrix.data);
-        var u_AmbientLight = gl.getUniformLocation(program, 'u_AmbientLight');
-        gl.uniform3f(u_AmbientLight, 0.2, 0.2, 0.2);
-        var u_LightPosition = gl.getUniformLocation(program, 'u_LightPosition');
-        gl.uniform3f(u_LightPosition, 10, 20, 30);
-        var u_LightColor = gl.getUniformLocation(program, 'u_LightColor');
-        gl.uniform3f(u_LightColor, 1.0, 1.0, 1.0);
-        // Set the light direction (in the world coordinate)
-        var u_LightDirection = gl.getUniformLocation(program, 'u_LightDirection');
-        var lightDirection = new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"]([0.5, 3.0, 4.0]);
-        lightDirection.normalize(); // Normalize
-        gl.uniform3fv(u_LightDirection, lightDirection.data);
         var u_MvpjMatrix = gl.getUniformLocation(program, 'u_MvpjMatrix');
-        gl.uniformMatrix4fv(u_MvpjMatrix, false, this.g_MvpMatrix.data);
-        this.g_normalMatrix = this.g_modelMatrix.clone().invert().transpose();
-        var u_NormalMatrix = gl.getUniformLocation(program, 'u_NormalMatrix');
-        gl.uniformMatrix4fv(u_NormalMatrix, false, this.g_normalMatrix.data);
+        gl.uniformMatrix4fv(u_MvpjMatrix, false, this.MvpMatrix.data);
         gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
     };
     return Application;
@@ -301,14 +271,14 @@ new Application(canvas);
 
 /***/ }),
 
-/***/ "./src/demo17/vertex.vert":
+/***/ "./src/demo18/vertex.vert":
 /*!********************************!*\
-  !*** ./src/demo17/vertex.vert ***!
+  !*** ./src/demo18/vertex.vert ***!
   \********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "attribute vec4 a_Position;\r\nattribute vec4 a_Color; // 法向量\r\nattribute vec4 a_Normal;\r\nuniform mat4 u_MvpjMatrix;\r\nuniform mat4 u_ModelMatrix; // 模型矩阵+++\r\nuniform mat4 u_NormalMatrix; // 光线颜色\r\nvarying vec3 v_Position;\r\nvarying vec3 v_Normal;\r\nvarying vec4 v_Color;\r\n\r\nvoid main(){  \r\n    gl_Position = u_MvpjMatrix * a_Position;\r\n    v_Normal = normalize(vec3(u_NormalMatrix * a_Normal));\r\n    v_Position = vec3( u_ModelMatrix * a_Position );\r\n    v_Color = a_Color;\r\n\r\n}"
+module.exports = "attribute vec4 a_Position;\r\nattribute vec4 a_Color;\r\nuniform mat4 u_MvpjMatrix;\r\nuniform bool u_Clicked;\r\nvarying vec4 v_Color;\r\n\r\nvoid main(){  \r\n    gl_Position = u_MvpjMatrix * a_Position;\r\n    if (u_Clicked) {\r\n        v_Color = vec4(1.0, 0.0, 0.0, 1.0);\r\n    }else{\r\n        v_Color = a_Color;\r\n    }\r\n}"
 
 /***/ }),
 
