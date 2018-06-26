@@ -72,8 +72,8 @@ export class Application {
     const { gl } = this;
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
     gl.enable(gl.DEPTH_TEST);
-    createIbo(gl, indices);
-    createVbo(gl, vertices);
+
+    // createVbo(gl, colors);
     let program = initShaders(gl, vert, frag);
     this.program = program;
     let viewMatrix = new Mat4().setLookAt(new Vec3(20, 10, 30), new Vec3(0, 0, 0), new Vec3(0, 1, 0)).invert();
@@ -91,11 +91,11 @@ export class Application {
         case 40: // Down arrow key -> the negative rotation of joint1 around the z-axis
           if (g_joint1Angle > -135.0) g_joint1Angle -= ANGLE_STEP;
           break;
-        case 39: // Right arrow key -> the positive rotation of arm1 around the y-axis
-          g_arm1Angle = (g_arm1Angle + ANGLE_STEP);
+          case 39: // Right arrow key -> the positive rotation of arm1 around the y-axis
+          g_arm1Angle = (g_arm1Angle + ANGLE_STEP) % 360;
           break;
         case 37: // Left arrow key -> the negative rotation of arm1 around the y-axis
-          g_arm1Angle = (g_arm1Angle - ANGLE_STEP);
+          g_arm1Angle = (g_arm1Angle - ANGLE_STEP) % 360;
           break;
         default: return; // Skip drawing at no effective action
       }
@@ -134,13 +134,15 @@ export class Application {
     this.g_MvpMatrix = this.g_MvpMatrix.mul(this.g_modelMatrix);
     let FSIZE = Float32Array.BYTES_PER_ELEMENT;
 
+    createVbo(gl, vertices);
     const a_Position = gl.getAttribLocation(program, 'a_Position');
     gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(a_Position);
+    createVbo(gl, colors);
     const a_Color = gl.getAttribLocation(program, 'a_Color');
     gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, 0, 0)
     gl.enableVertexAttribArray(a_Color);
-
+    createIbo(gl, indices);
     const a_Normal = gl.getAttribLocation(program, 'a_Normal');
     gl.vertexAttribPointer(a_Normal, 3, gl.FLOAT, false, 0, 0)
     gl.enableVertexAttribArray(a_Normal);
@@ -152,7 +154,7 @@ export class Application {
     gl.uniform3f(u_AmbientLight, 0.2, 0.2, 0.2);
 
     var u_LightPosition = gl.getUniformLocation(program, 'u_LightPosition');
-    gl.uniform3f(u_LightPosition, 20, 20, 17);
+    gl.uniform3f(u_LightPosition, 10, 20, 30);
 
     var u_LightColor = gl.getUniformLocation(program, 'u_LightColor');
     gl.uniform3f(u_LightColor, 1.0, 1.0, 1.0);

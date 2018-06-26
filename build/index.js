@@ -205,8 +205,6 @@ var Application = /** @class */ (function () {
                 gl = this.gl;
                 gl.clearColor(0.0, 0.0, 0.0, 1.0);
                 gl.enable(gl.DEPTH_TEST);
-                Object(_utils__WEBPACK_IMPORTED_MODULE_3__["createIbo"])(gl, indices);
-                Object(_utils__WEBPACK_IMPORTED_MODULE_3__["createVbo"])(gl, vertices);
                 program = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["initShaders"])(gl, _vertex_vert__WEBPACK_IMPORTED_MODULE_0___default.a, _fragment_frag__WEBPACK_IMPORTED_MODULE_1___default.a);
                 this.program = program;
                 viewMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().setLookAt(new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](20, 10, 30), new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 0, 0), new _math__WEBPACK_IMPORTED_MODULE_4__["Vec3"](0, 1, 0)).invert();
@@ -224,10 +222,10 @@ var Application = /** @class */ (function () {
                                 g_joint1Angle -= ANGLE_STEP;
                             break;
                         case 39: // Right arrow key -> the positive rotation of arm1 around the y-axis
-                            g_arm1Angle = (g_arm1Angle + ANGLE_STEP);
+                            g_arm1Angle = (g_arm1Angle + ANGLE_STEP) % 360;
                             break;
                         case 37: // Left arrow key -> the negative rotation of arm1 around the y-axis
-                            g_arm1Angle = (g_arm1Angle - ANGLE_STEP);
+                            g_arm1Angle = (g_arm1Angle - ANGLE_STEP) % 360;
                             break;
                         default: return; // Skip drawing at no effective action
                     }
@@ -263,12 +261,15 @@ var Application = /** @class */ (function () {
         this.g_MvpMatrix = this.g_MvpMatrix.copy(viewProjMatrix);
         this.g_MvpMatrix = this.g_MvpMatrix.mul(this.g_modelMatrix);
         var FSIZE = Float32Array.BYTES_PER_ELEMENT;
+        Object(_utils__WEBPACK_IMPORTED_MODULE_3__["createVbo"])(gl, vertices);
         var a_Position = gl.getAttribLocation(program, 'a_Position');
         gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 0, 0);
         gl.enableVertexAttribArray(a_Position);
+        Object(_utils__WEBPACK_IMPORTED_MODULE_3__["createVbo"])(gl, colors);
         var a_Color = gl.getAttribLocation(program, 'a_Color');
         gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, 0, 0);
         gl.enableVertexAttribArray(a_Color);
+        Object(_utils__WEBPACK_IMPORTED_MODULE_3__["createIbo"])(gl, indices);
         var a_Normal = gl.getAttribLocation(program, 'a_Normal');
         gl.vertexAttribPointer(a_Normal, 3, gl.FLOAT, false, 0, 0);
         gl.enableVertexAttribArray(a_Normal);
@@ -277,7 +278,7 @@ var Application = /** @class */ (function () {
         var u_AmbientLight = gl.getUniformLocation(program, 'u_AmbientLight');
         gl.uniform3f(u_AmbientLight, 0.2, 0.2, 0.2);
         var u_LightPosition = gl.getUniformLocation(program, 'u_LightPosition');
-        gl.uniform3f(u_LightPosition, 20, 20, 17);
+        gl.uniform3f(u_LightPosition, 10, 20, 30);
         var u_LightColor = gl.getUniformLocation(program, 'u_LightColor');
         gl.uniform3f(u_LightColor, 1.0, 1.0, 1.0);
         // Set the light direction (in the world coordinate)
