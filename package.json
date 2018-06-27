@@ -60,6 +60,7 @@
     "demo17": "webpack --env.demo=demo17 --colors --watch",
     "demo18": "webpack --env.demo=demo18 --colors --watch",
     "demo19": "webpack --env.demo=demo19 --colors --watch",
+    "demo20": "webpack --env.demo=demo20 --colors --watch",
     "deploy": "gulp upload"
   },
   "engines": {
