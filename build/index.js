@@ -66,25 +66,25 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/demo19/index.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/demo18/index.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/demo19/fragment.frag":
+/***/ "./src/demo18/fragment.frag":
 /*!**********************************!*\
-  !*** ./src/demo19/fragment.frag ***!
+  !*** ./src/demo18/fragment.frag ***!
   \**********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "precision mediump float;\r\nvarying vec4 v_Color;            \r\n\r\nvoid main(void) {                          \r\n    gl_FragColor = v_Color;                \r\n}"
+module.exports = "precision mediump float;\nvarying vec4 v_Color;            \n\nvoid main(void) {                          \n    gl_FragColor = v_Color;                \n}"
 
 /***/ }),
 
-/***/ "./src/demo19/index.ts":
+/***/ "./src/demo18/index.ts":
 /*!*****************************!*\
-  !*** ./src/demo19/index.ts ***!
+  !*** ./src/demo18/index.ts ***!
   \*****************************/
 /*! exports provided: Application */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -92,9 +92,9 @@ module.exports = "precision mediump float;\r\nvarying vec4 v_Color;            \
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Application", function() { return Application; });
-/* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vertex.vert */ "./src/demo19/vertex.vert");
+/* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vertex.vert */ "./src/demo18/vertex.vert");
 /* harmony import */ var _vertex_vert__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_vertex_vert__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fragment.frag */ "./src/demo19/fragment.frag");
+/* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fragment.frag */ "./src/demo18/fragment.frag");
 /* harmony import */ var _fragment_frag__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_fragment_frag__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _math_mat4__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../math/mat4 */ "./src/math/mat4.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
@@ -140,15 +140,6 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 var canvas = document.getElementById('root');
-canvas.style.position = 'absolute';
-canvas.style.zIndex = '0';
-var hud = document.createElement('canvas');
-hud.width = 1000;
-hud.height = 600;
-hud.style.position = 'absolute';
-hud.style.zIndex = '1';
-document.body.appendChild(hud);
-var ctx = hud.getContext('2d');
 // Create a cube
 //    v6----- v5
 //   /|      /|
@@ -174,16 +165,16 @@ var colors = new Float32Array([
     0.73, 0.82, 0.93, 0.73, 0.82, 0.93, 0.73, 0.82, 0.93, 0.73, 0.82, 0.93,
 ]);
 // Indices of the vertices
-var indices = new Uint8Array([
-    0, 1, 2, 0, 2, 3,
-    4, 5, 6, 4, 6, 7,
-    8, 9, 10, 8, 10, 11,
-    12, 13, 14, 12, 14, 15,
-    16, 17, 18, 16, 18, 19,
-    20, 21, 22, 20, 22, 23 // back
-]);
+// var indices = new Uint8Array([
+//   0, 1, 2, 0, 2, 3,    // front
+//   4, 5, 6, 4, 6, 7,    // right
+//   8, 9, 10, 8, 10, 11,    // up
+//   12, 13, 14, 12, 14, 15,    // left
+//   16, 17, 18, 16, 18, 19,    // down
+//   20, 21, 22, 20, 22, 23     // back
+// ]);
 // Indices of the vertices
-var indices = new Uint8Array([
+var indices = new Uint16Array([
     0, 1, 2, 0, 2, 3,
     4, 5, 6, 4, 6, 7,
     8, 9, 10, 8, 10, 11,
@@ -197,7 +188,6 @@ var g_arm1Angle = -90.0; // The rotation angle of arm1 (degrees)
 var g_joint1Angle = 0.0; // The rotation angle of joint1 (degrees)
 var Application = /** @class */ (function () {
     function Application(canvas) {
-        this.currentAngle = 0;
         var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
         this.gl = gl;
         this.main();
@@ -205,7 +195,7 @@ var Application = /** @class */ (function () {
     Application.prototype.main = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var gl, program, viewMatrix, projMatrix, modelMatrix, viewProjMatrix, tick;
+            var gl, program, viewMatrix, projMatrix, modelMatrix, viewProjMatrix;
             return __generator(this, function (_a) {
                 if (this.gl instanceof WebGL2RenderingContext) {
                     return [2 /*return*/];
@@ -221,13 +211,6 @@ var Application = /** @class */ (function () {
                 viewProjMatrix = new _math_mat4__WEBPACK_IMPORTED_MODULE_2__["Mat4"]().mul(projMatrix).mul(viewMatrix).mul(modelMatrix);
                 this.MvpMatrix = viewProjMatrix;
                 this.draw();
-                tick = function () {
-                    // currentAngle = animate(currentAngle);
-                    _this.draw2D(ctx); // Draw 2D
-                    _this.draw();
-                    requestAnimationFrame(tick);
-                };
-                tick();
                 canvas.onmousedown = function (ev) {
                     var x = ev.clientX, y = ev.clientY;
                     var rect = ev.target.getBoundingClientRect();
@@ -242,24 +225,6 @@ var Application = /** @class */ (function () {
                 return [2 /*return*/];
             });
         });
-    };
-    Application.prototype.draw2D = function (ctx) {
-        ctx.clearRect(0, 0, 1000, 600); // Clear <hud>
-        // Draw triangle with white lines
-        ctx.beginPath(); // Start drawing
-        ctx.moveTo(120, 10);
-        ctx.lineTo(200, 150);
-        ctx.lineTo(40, 150);
-        ctx.closePath();
-        ctx.strokeStyle = 'rgba(255, 255, 255, 1)'; // Set white to color of lines
-        ctx.stroke(); // Draw Triangle with white lines
-        // Draw white letters
-        ctx.font = '18px "Times New Roman"';
-        ctx.fillStyle = 'rgba(255, 255, 255, 1)'; // Set white to the color of letters
-        ctx.fillText('HUD: Head Up Display', 40, 180);
-        ctx.fillText('Triangle is drawn by Canvas 2D API.', 40, 200);
-        ctx.fillText('Cube is drawn by WebGL API.', 40, 220);
-        ctx.fillText('Current Angle: ' + Math.floor(this.currentAngle), 40, 240);
     };
     Application.prototype.check = function (x, y) {
         if (this.gl instanceof WebGL2RenderingContext) {
@@ -296,7 +261,7 @@ var Application = /** @class */ (function () {
         Object(_utils__WEBPACK_IMPORTED_MODULE_3__["createIbo"])(gl, indices);
         var u_MvpjMatrix = gl.getUniformLocation(program, 'u_MvpjMatrix');
         gl.uniformMatrix4fv(u_MvpjMatrix, false, this.MvpMatrix.data);
-        gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
+        gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_SHORT, 0);
     };
     return Application;
 }());
@@ -306,14 +271,14 @@ new Application(canvas);
 
 /***/ }),
 
-/***/ "./src/demo19/vertex.vert":
+/***/ "./src/demo18/vertex.vert":
 /*!********************************!*\
-  !*** ./src/demo19/vertex.vert ***!
+  !*** ./src/demo18/vertex.vert ***!
   \********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "attribute vec4 a_Position;\r\nattribute vec4 a_Color;\r\nuniform mat4 u_MvpjMatrix;\r\nuniform bool u_Clicked;\r\nvarying vec4 v_Color;\r\n\r\nvoid main(){  \r\n    gl_Position = u_MvpjMatrix * a_Position;\r\n    if (u_Clicked) {\r\n        v_Color = vec4(1.0, 0.0, 0.0, 1.0);\r\n    }else{\r\n        v_Color = a_Color;\r\n    }\r\n}"
+module.exports = "attribute vec4 a_Position;\nattribute vec4 a_Color;\nuniform mat4 u_MvpjMatrix;\nuniform bool u_Clicked;\nvarying vec4 v_Color;\n\nvoid main(){  \n    gl_Position = u_MvpjMatrix * a_Position;\n    if (u_Clicked) {\n        v_Color = vec4(1.0, 0.0, 0.0, 1.0);\n    }else{\n        v_Color = a_Color;\n    }\n}"
 
 /***/ }),
 

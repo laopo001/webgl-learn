@@ -26,7 +26,7 @@ module.exports = function (env, webpackConfig) {
             new BrowserSyncPlugin({
                 // proxy: 'localhost:80',//要代理的端口
                 host: 'localhost',
-                port: 5000,
+                port: 5100,
                 server: { baseDir: ['build'] }
             }),
             new CopyWebpackPlugin([{

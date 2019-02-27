@@ -41,7 +41,7 @@ export function createVbo(gl: WebGLRenderingContext, data: Float32Array): WebGLB
     gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
     return vbo;
 }
-export function createIbo(gl: WebGLRenderingContext, data: Uint8Array): WebGLBuffer {
+export function createIbo(gl: WebGLRenderingContext, data: Uint8Array | Uint16Array): WebGLBuffer {
     // 创建缓存区对象
     let vbo = gl.createBuffer();
     // 将缓冲区对象绑定到目标

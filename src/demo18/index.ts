@@ -34,17 +34,17 @@ var colors = new Float32Array([   // Colors
 ]);
 
 // Indices of the vertices
-var indices = new Uint8Array([
-  0, 1, 2, 0, 2, 3,    // front
-  4, 5, 6, 4, 6, 7,    // right
-  8, 9, 10, 8, 10, 11,    // up
-  12, 13, 14, 12, 14, 15,    // left
-  16, 17, 18, 16, 18, 19,    // down
-  20, 21, 22, 20, 22, 23     // back
-]);
+// var indices = new Uint8Array([
+//   0, 1, 2, 0, 2, 3,    // front
+//   4, 5, 6, 4, 6, 7,    // right
+//   8, 9, 10, 8, 10, 11,    // up
+//   12, 13, 14, 12, 14, 15,    // left
+//   16, 17, 18, 16, 18, 19,    // down
+//   20, 21, 22, 20, 22, 23     // back
+// ]);
 
 // Indices of the vertices
-var indices = new Uint8Array([
+var indices = new Uint16Array([
   0, 1, 2, 0, 2, 3,    // front
   4, 5, 6, 4, 6, 7,    // right
   8, 9, 10, 8, 10, 11,    // up
@@ -135,7 +135,7 @@ export class Application {
     gl.uniformMatrix4fv(u_MvpjMatrix, false, this.MvpMatrix.data);
 
 
-    gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
+    gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_SHORT , 0);
   }
 
 }
